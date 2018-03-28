@@ -3,9 +3,10 @@ const fs = require('fs');
 const readDir = require('fs-readdir-promise');
 const promisify = require('util').promisify;
 const readFile = promisify(fs.readFile);
-const writeFile = promisify(fs.writeFile);
 const express = require('express');
 const app = express();
+const db = require('./db.js');
+const fcCategoryFileName = 'fccategories.html'
 
 // Function to Handle Login Request
 let processLogin = (request, response, params) => {
@@ -13,8 +14,13 @@ let processLogin = (request, response, params) => {
     /*
         TODO - Authenticate the user login
     */
-    processFileRequest(response, 'fccategories.html');
+    processFileRequest(response, fcCategoryFileName);
 };
+
+// Function whenever user wants to return category page 
+let getCategories = (request, response) => {
+    processFileRequest(response, fcCategoryFileName);
+}
 
 let matchesTheRequest = (request, { method, path }) => {
     var sameMethod = request.method === method;
@@ -32,8 +38,8 @@ let processFileRequest = (response, fileName) => {
             return files;
         })
         .then(files => {
-            if (files.indexOf(requestFileName) !== -1) {
-                readFile(`static/${requestFileName}`)
+            if (files.indexOf(fileName) !== -1) {
+                readFile(`static/${fileName}`)
                     .then(fileData => {
                         response.end(fileData);
                     })
@@ -44,7 +50,7 @@ let processFileRequest = (response, fileName) => {
 
 let serveStaticFiles = (request, response) => {
     var requestFileName = request.url.slice(1);
-    processFileReques(response, requestFileName);
+    processFileRequest(response, requestFileName);
 };
 
 let notFound = (request, response) => {
@@ -52,32 +58,14 @@ let notFound = (request, response) => {
     response.end('404, Nothing Here!');
 };
 
-let routes = [{
-        method: 'GET',
-        path: '',
-        handler: getData
-    },
-    {
-        method: 'DELETE',
-        path: '',
-        handler: deleteData
-    },
-    {
-        method: 'PUT',
-        path: '',
-        handler: updateData
-    },
-    {
-        method: 'GET',
-        path: '',
-        handler: allData
-    },
-    {
-        // When The Login Request Comes Here Route To
-        method: 'POST',
-        path: /^\/login\/?$/,
-        handler: processsLogin
-    }
+let routes = [
+    // { method: 'GET', path: '', handler: getData },
+    // { method: 'DELETE', path: '', handler: deleteData },
+    // { method: 'PUT', path: '', handler: updateData },
+    // When the user wants to return to the flash card category page route to
+    { method: 'GET', path: /^\/categories$/, handler: getCategories },
+    // When the Login Request Comes Here Route To
+    { method: 'POST', path: /^\/login$/, handler: processLogin }
 ];
 
 let server = http.createServer(function(request, response) {

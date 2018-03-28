@@ -19,6 +19,7 @@
   "homepage": "https://github.com/NickWilsonDev/cramIT#readme",
   "dependencies": {
     "express": "^4.16.3",
-    "fs-readdir-promise": "^1.0.1"
+    "fs-readdir-promise": "^1.0.1",
+    "pg-promise": "^8.2.2"
   }
 }
