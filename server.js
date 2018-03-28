@@ -7,6 +7,15 @@ const writeFile = promisify(fs.writeFile);
 const express = require('express');
 const app = express();
 
+// Function to Handle Login Request
+let processLogin = (request, response, params) => {
+    console.log("Processing Login Request");
+    /*
+        TODO - Authenticate the user login
+    */
+    processFileRequest(response, 'fccategories.html');
+};
+
 let matchesTheRequest = (request, { method, path }) => {
     var sameMethod = request.method === method;
     if (sameMethod) {
@@ -18,8 +27,7 @@ let matchesTheRequest = (request, { method, path }) => {
     return false;
 };
 
-let serveStaticFiles = (request, response) => {
-    var requestFileName = request.url.slice(1);
+let processFileRequest = (response, fileName) => {
     readDir('static', files => {
             return files;
         })
@@ -32,6 +40,11 @@ let serveStaticFiles = (request, response) => {
             }
         })
         .catch(error => console.log(error))
+};
+
+let serveStaticFiles = (request, response) => {
+    var requestFileName = request.url.slice(1);
+    processFileReques(response, requestFileName);
 };
 
 let notFound = (request, response) => {
@@ -60,9 +73,10 @@ let routes = [{
         handler: allData
     },
     {
+        // When The Login Request Comes Here Route To
         method: 'POST',
-        path: '',
-        handler: postData
+        path: /^\/login\/?$/,
+        handler: processsLogin
     }
 ];
 
