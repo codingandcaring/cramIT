@@ -3,7 +3,7 @@ const fs = require('fs');
 const readDir = require('fs-readdir-promise');
 const promisify = require('util').promisify;
 const jwt = require('jsonwebtoken');
-const findUser = require('./database');
+const findUser = require('./db');
 
 const readFile = promisify(fs.readFile);
 const express = require('express');
@@ -63,9 +63,9 @@ let userAuthorization = (request, response) => {
     };
 
     if (payload) {
-        userID = payload.userID;
+        return userID = payload.userID;
     }
-    return userID;
+    return false;
 }
 
     
