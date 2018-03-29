@@ -3,7 +3,7 @@ const fs = require('fs');
 const readDir = require('fs-readdir-promise');
 const promisify = require('util').promisify;
 const jwt = require('jsonwebtoken');
-const findUser = require('./database');
+const findUser = require('./db');
 
 const readFile = promisify(fs.readFile);
 const express = require('express');
@@ -45,18 +45,40 @@ let processLogin = (request, response, params) => {
 
 let createToken = (user) => {
     let token = jwt.sign(
-    {userID: user.ID},
+    {userID: user.id},
     secret,
     {expiresIn: '7d' }
     );
     return token
 };
+
+let userAuthorization = (request, response) => {
+    let { authorization } = request.headers;
+    let payload;
+    let userID;
+    try {
+        payload = jwt.verify(authorization, secret)
+    } catch (err) {
+        console.log(err);
+    };
+
+    if (payload) {
+        return userID = payload.userID;
+    }
+    return false;
+}
+
     
 
 // Function whenever user wants to return category page 
 let getCategories = (request, response) => {
-    processFileRequest(response, fcCategoryFileName);
-}
+    let authorizedUser = userAuthorization(request, response)
+    if (authorizedUser) {
+        processFileRequest(response, fcCategoryFileName);
+    } else {
+        response.end('REDIRECT BACK TO MAIN PAGE');
+    }
+};
 
 let matchesTheRequest = (request, { method, path }) => {
     var sameMethod = request.method === method;

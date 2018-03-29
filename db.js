@@ -1,5 +1,12 @@
 const pg = require('pg-promise')();
-const dbConfig = 'postgres://pmattam@localhost:5432/cramit';
-const db = pg(dbConfig);
 
-module.exports = db;
+const builder = process.env.USER
+const dbconfig = `postgres://${builder}@localhost/cramit`;
+const db = pg(dbconfig);
+
+
+let findUser = (attribute, input) => {
+    return db.query(`SELECT * FROM users WHERE ${attribute} = '${input}';`)
+}
+
+module.exports = findUser;
