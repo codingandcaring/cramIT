@@ -45,18 +45,40 @@ let processLogin = (request, response, params) => {
 
 let createToken = (user) => {
     let token = jwt.sign(
-    {userID: user.ID},
+    {userID: user.id},
     secret,
     {expiresIn: '7d' }
     );
     return token
 };
+
+let userAuthorization = (request, response) => {
+    let { authorization } = request.headers;
+    let payload;
+    let userID;
+    try {
+        payload = jwt.verify(authorization, secret)
+    } catch (err) {
+        console.log(err);
+    };
+
+    if (payload) {
+        userID = payload.userID;
+    }
+    return userID;
+}
+
     
 
 // Function whenever user wants to return category page 
 let getCategories = (request, response) => {
-    processFileRequest(response, fcCategoryFileName);
-}
+    let authorizedUser = userAuthorization(request, response)
+    if (authorizedUser) {
+        processFileRequest(response, fcCategoryFileName);
+    } else {
+        response.end('REDIRECT BACK TO MAIN PAGE');
+    }
+};
 
 let matchesTheRequest = (request, { method, path }) => {
     var sameMethod = request.method === method;
