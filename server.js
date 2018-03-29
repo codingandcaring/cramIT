@@ -3,12 +3,10 @@ const fs = require('fs');
 const readDir = require('fs-readdir-promise');
 const promisify = require('util').promisify;
 const jwt = require('jsonwebtoken');
-const findUser = require('./db');
-
+const findUser = require('./database');
 const readFile = promisify(fs.readFile);
 const express = require('express');
 const app = express();
-const db = require('./db.js');
 const fcCategoryFileName = 'fccategories.html'
 const secret = '1trw_87n$a%rthp'
 
@@ -31,23 +29,21 @@ let processLogin = (request, response, params) => {
         let credentials = JSON.parse(body);
         let { username, password } = credentials;
         findUser('username', username)
-        .then( (user) => {
-            if (user[0].password === password) {
-                let token = createToken(user[0]);
-                response.end(token)
-            } else { 
-                response.end('No token for you');
-            }  
-        })
+            .then((user) => {
+                if (user[0].password === password) {
+                    let token = createToken(user[0]);
+                    response.end(token)
+                } else {
+                    response.end('No token for you');
+                }
+            })
 
     })
 };
 
 let createToken = (user) => {
-    let token = jwt.sign(
-    {userID: user.id},
-    secret,
-    {expiresIn: '7d' }
+    let token = jwt.sign({ userID: user.id },
+        secret, { expiresIn: '7d' }
     );
     return token
 };
@@ -68,7 +64,7 @@ let userAuthorization = (request, response) => {
     return false;
 }
 
-    
+
 
 // Function whenever user wants to return category page 
 let getCategories = (request, response) => {
