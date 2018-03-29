@@ -9,3 +9,9 @@ Whether you are experienced or new to the software development field, job interv
 * Express.js - Routing
 * PostgreSQL - Database
 * AWS - Hosting
+
+
+### Misc notes
+* psql -d postgres -f ./cramit.sql   ====> creates db and tables
+* psql -d cramit  ==========> opens up db in terminal
+
