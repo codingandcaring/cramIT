@@ -2,20 +2,56 @@ const http = require('http');
 const fs = require('fs');
 const readDir = require('fs-readdir-promise');
 const promisify = require('util').promisify;
+const jwt = require('jsonwebtoken');
+const findUser = require('./database');
+
 const readFile = promisify(fs.readFile);
 const express = require('express');
 const app = express();
 const db = require('./db.js');
 const fcCategoryFileName = 'fccategories.html'
+const secret = '1trw_87n$a%rthp'
+
+
+
+//Function to get post data from front end
+let getTextFromServer = (request, callback) => {
+    let body = ''
+    request.on('data', (chunk) => {
+        body += chunk.toString();
+    });
+    request.on('end', () => {
+        callback(body);
+    });
+};
 
 // Function to Handle Login Request
 let processLogin = (request, response, params) => {
-    console.log("Processing Login Request");
-    /*
-        TODO - Authenticate the user login
-    */
-    processFileRequest(response, fcCategoryFileName);
+    getTextFromServer((request), (body) => {
+        let credentials = JSON.parse(body);
+        let { username, password } = credentials;
+        findUser('username', username)
+        .then( (user) => {
+            if (user[0].password === password) {
+                let token = createToken(user[0]);
+                response.end(token)
+            } else { 
+                response.end('No token for you');
+            }  
+        })
+
+    })
 };
+
+let createToken = (user) => {
+    let token = jwt.sign(
+    {userID: user.ID},
+    secret,
+    {expiresIn: '7d' }
+    );
+    return token
+};
+    
 
 // Function whenever user wants to return category page 
 let getCategories = (request, response) => {
@@ -63,9 +99,9 @@ let routes = [
     // { method: 'DELETE', path: '', handler: deleteData },
     // { method: 'PUT', path: '', handler: updateData },
     // When the user wants to return to the flash card category page route to
-    { method: 'GET', path: /^\/categories$/, handler: getCategories },
+    { method: 'GET', path: /^\/categories\/?$/, handler: getCategories },
     // When the Login Request Comes Here Route To
-    { method: 'POST', path: /^\/login$/, handler: processLogin }
+    { method: 'POST', path: /^\/tokens\/?$/, handler: processLogin }
 ];
 
 let server = http.createServer(function(request, response) {
