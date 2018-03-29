@@ -16,7 +16,8 @@ CREATE TABLE cards (
     category_name VARCHAR (100),
     question TEXT UNIQUE NOT NULL,
     answer TEXT NOT NULL,
-    difficulty difficulty_rating
+    difficulty difficulty_rating,
+    link TEXT
 );
 
 
