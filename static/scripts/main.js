@@ -5,7 +5,7 @@ let triggerLoginWindow = (event) => {
     let closeButton = document.querySelector('body > div > div.pop-up-login.active > form > span')
     closeButton.addEventListener('click', closeWindow);
     let form = document.querySelector('body > div > div.pop-up-login.active > form')
-    form.addEventListener('submit', createNewAccount);
+    form.addEventListener('submit', userLogin);
 }
 
 let triggerCreateAccountWindow = (event) => {
@@ -16,6 +16,12 @@ let triggerCreateAccountWindow = (event) => {
     let form = document.querySelector('body > div > div.pop-up-create-account.active > form')
     form.addEventListener('submit', createNewAccount);
 }
+
+let userLogin = () => {
+    let username = form.username.value;
+    let password = form.password.value;
+    console.log(username + " : " + password);
+};
 
 let createNewAccount = (event) => {
     event.preventDefault()
