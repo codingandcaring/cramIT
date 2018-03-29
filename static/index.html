@@ -18,46 +18,25 @@
         <button type="button" class="button">CREATE ACCOUNT</button>
     </div>
     <div class="pop-up-login">
-
         <form action="/login" method="post">
             <span class="close-button">close</span>
-            <div class="container">
-            <input type="text" name="username" placeholder="Enter Username" name="uname" required>
-        
-            <input type="password" name="password" placeholder="Enter Password" name="psw" required>
-            </div>
-            <div class="container">
-            <button type="submit">Login</button>
-            <label>
-                <input type="checkbox" checked="checked" name="remember"> Remember me
-            </label>
-            </div>
-        
-            <div class="container">
-            <span class="psw"><a href="#">Forgot password?</a></span>
-            </div>
+            <input type="text" placeholder="username"/>
+            <input type="password" placeholder="password"/>
+            <button class="button" type="submit">login</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
         </form>
     </div>
     <div class="pop-up-create-account">
-
-            <form>
-                <span class="close-button">close</span>
-                <div class="container">
-                    <label for="username">Enter a username</label>
-                    <input type="text" name="username" id="username" placeholder="username" required>
-                    <label for="password">Enter a password</label>
-                    <input type="password" name="password" id="password" placeholder="password" required>
-                    <label for="email">Enter your email</label>
-                    <input type="text" name="email" id="email" placeholder="name@email.com" required>
-                    <label for="location">Location</label>
-                    <input type="password" name="location" id="location" placeholder="city, state" required>
-                </div>
-                <div class="container">
-                    <button type="submit">SUBMIT</button>
-
-                </div>
-            </form>
-        </div>
+        <form class="register-form">
+            <span class="close-button">close</span>
+            <input type="text" placeholder="name"/>
+            <input type="password" placeholder="password"/>
+            <input type="text" placeholder="email address"/>
+            <input type="text" placeholder="city, state"/>
+            <button class="button" type="submit">create</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+        </form>
+    </div>
 </div>
 <!-- Check out the new logo that I created on <a href="http://logomakr.com" title="Logo Makr">LogoMakr.com</a> https://logomakr.com/9AtGbh -->
 <script type="text/javascript" src="scripts/main.js"></script>
