@@ -1,0 +1,23 @@
+{
+  "name": "cramit",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">     <img width=\"460\" height=\"300\" src=\"./Peter_Pan.png\"> </p> Whether you are experienced or new to the software development field, job interviews can be daunting.  This app will help you to prepare by covering technical questions, as well as common interview strategies, that may come up in an interview.  Use this app to prepare for your interview and land your dream job.",
+  "main": "index.js",
+  "dependencies": {
+    "pg-promise": "^8.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NickWilsonDev/cramIT.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NickWilsonDev/cramIT/issues"
+  },
+  "homepage": "https://github.com/NickWilsonDev/cramIT#readme"
+}
