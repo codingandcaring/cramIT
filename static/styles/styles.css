@@ -1,0 +1,111 @@
+html {
+    width: 100%;
+    height: 100vh;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.log-in {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    color: #ffffff;
+    font-size: 20px;
+    background: #d93434;
+    padding: 10px 20px 10px 20px;
+    margin: 10px;
+    text-decoration: none;
+  }
+  
+  .button:hover {
+    background: #fcfcfc;
+    color: red;
+    text-decoration: none;
+  }
+
+.pop-up-login {
+    display: none;
+    position: fixed;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(88, 88, 88, 0.8);
+    overflow: hidden;
+    
+}
+
+.pop-up-login.active {
+    display: flex;
+    z-index: 1;
+}
+
+.pop-up-create-account {
+    display: none;
+    position: fixed;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(88, 88, 88, 0.8);
+    overflow: hidden;
+}
+
+.pop-up-create-account.active {
+    display: flex;
+    z-index: 1;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 50%;
+    height: 50%;
+    background-color: white;
+}
+
+.container {
+    padding: 10px;
+}
+
+.close-button {
+    color:rgb(216, 215, 215);
+    font-size: 15px;
+    top: 20px;
+    right: 50px;
+    cursor: pointer;
+    position: absolute;
+}
+
+
+
+

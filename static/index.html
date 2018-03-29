@@ -1,15 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>cramIT</title>
+    <link rel="icon" href="images/cards.png">
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
-
 <body>
+<div class="content">
+    <div class="logo">
+        <img src="images/logo.png">
+    </div>
+    <div class="log-in">
+        <button type="button" class="button">LOG IN</button>
+        <button type="button" class="button">CREATE ACCOUNT</button>
+    </div>
+    <div class="pop-up-login">
 
+        <form>
+            <span class="close-button">close</span>
+            <div class="container">
+            <input type="text" name="username" placeholder="Enter Username" name="uname" required>
+        
+            <input type="password" name="password" placeholder="Enter Password" name="psw" required>
+            </div>
+            <div class="container">
+            <button type="submit">Login</button>
+            <label>
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
+            </div>
+        
+            <div class="container">
+            <span class="psw"><a href="#">Forgot password?</a></span>
+            </div>
+        </form>
+    </div>
+    <div class="pop-up-create-account">
+
+            <form>
+                <span class="close-button">close</span>
+                <div class="container">
+                    <label for="username">Enter a username</label>
+                    <input type="text" name="username" id="username" placeholder="username" required>
+                    <label for="password">Enter a password</label>
+                    <input type="password" name="password" id="password" placeholder="password" required>
+                    <label for="email">Enter your email</label>
+                    <input type="text" name="email" id="email" placeholder="name@email.com" required>
+                    <label for="location">Location</label>
+                    <input type="password" name="location" id="location" placeholder="city, state" required>
+                </div>
+                <div class="container">
+                    <button type="submit">SUBMIT</button>
+
+                </div>
+            </form>
+        </div>
+</div>
+<!-- Check out the new logo that I created on <a href="http://logomakr.com" title="Logo Makr">LogoMakr.com</a> https://logomakr.com/9AtGbh -->
+<script type="text/javascript" src="scripts/main.js"></script>
 </body>
-
 </html>
