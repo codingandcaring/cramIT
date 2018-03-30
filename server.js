@@ -1,6 +1,5 @@
 const http = require('http');
 const fs = require('fs');
-const readDir = require('fs-readdir-promise');
 const promisify = require('util').promisify;
 const readFile = promisify(fs.readFile);
 const db = require('./database');
@@ -46,10 +45,8 @@ let processLogin = (request, response, params) => {
 };
 
 let createToken = (user) => {
-    let token = jwt.sign(
-        { userID: user.id },
-        secret, 
-        { expiresIn: '7d' }
+    let token = jwt.sign({ userID: user.id },
+        secret, { expiresIn: '7d' }
     );
     return token
 };
@@ -114,22 +111,17 @@ let matchesTheRequest = (request, { method, path }) => {
 };
 
 let processFileRequest = (response, fileName) => {
-    readDir('static', files => {
-            return files;
-        })
-        .then(files => {
-            if (files.indexOf(fileName) !== -1) {
-                readFile(`static/${fileName}`)
-                    .then(fileData => {
-                        response.end(fileData);
-                    })
-            }
+    console.log(fileName);
+    readFile(`static/${fileName}`)
+        .then(fileData => {
+            response.end(fileData);
         })
         .catch(error => console.log(error))
 };
 
 let serveStaticFiles = (request, response) => {
     var requestFileName = request.url.slice(1);
+    console.log("RFN", requestFileName);
     processFileRequest(response, requestFileName);
 };
 
@@ -152,12 +144,14 @@ let routes = [
 
 let server = http.createServer(function(request, response) {
     let regex = /^(\/[a-zA-Z]+)?(\/[a-z]+\.[a-z]+)$/;
+    console.log(request.url);
     if (request.url === '/') {
         request.url = '/index.html';
     }
     if (regex.test(request.url)) {
         serveStaticFiles(request, response);
     } else {
+        console.log("It is not passing reg exp", request.url);
         let params = [];
         let matchedRoute;
         for (let route of routes) {
