@@ -2,15 +2,13 @@ const http = require('http');
 const fs = require('fs');
 const readDir = require('fs-readdir-promise');
 const promisify = require('util').promisify;
-const jwt = require('jsonwebtoken');
-const db = require('./database');
 const readFile = promisify(fs.readFile);
-const express = require('express');
-const app = express();
-const fcCategoryFileName = 'fccategories.html'
+const db = require('./database');
+const jwt = require('jsonwebtoken');
 const secret = '1trw_87n$a%rthp';
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const fcCategoryFileName = 'fccategories.html'
 
 //Function to get post data from front end
 let getTextFromServer = (request, callback) => {
@@ -72,13 +70,14 @@ let userAuthorization = (request, response) => {
 
 // Function to create account for the user - process new user account from JSON data retrieved and 
 // store the credentials in the database
+// signup request - http://localhost:3000/signup
 // sample JSON request - { "username": "joe smith", "password": "password", "location": "Atlanta, GA", "email": "joe@joe.com" }
 let createAccount = (request, response) => {
     getTextFromServer((request), (user) => {
         let userData = JSON.parse(user);
         bcrypt.hash(userData.password, saltRounds)
-            .then(hash => {
-                db.insertUser(userData.username, hash, userData.location, userData.email)
+            .then(encryptedPwd => {
+                db.insertUser(userData.username, encryptedPwd, userData.location, userData.email)
                     .then(() => response.end('New User Stored'))
                     .catch(error => {
                         console.log(error);
