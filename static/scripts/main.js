@@ -43,10 +43,25 @@ let userLogin = (event) => {
             const reader = response.body.getReader();
             reader.read()
                 .then(({ done, value }) => {
-                    let tokenValue = new TextDecoder("utf-8").decode(value)
-                    console.log("value", tokenValue);
+                    let tokenValue = new TextDecoder("utf-8").decode(value);
+                    console.log("token value", tokenValue);
+                    return tokenValue;
                 })
-                .then(() => document.location.href = '/fccategories.html')
+                .then(tokenValue => {
+                    fetch('/categories', {
+                        method: 'GET',
+                        headers: new Headers({
+                            'Authorization': `Bearer ${tokenValue}`
+                        })
+                    }).then(response => {
+                        const reader = response.body.getReader();
+                        reader.read()
+                            .then(({ done, value }) => {
+                                let data = new TextDecoder("utf-8").decode(value);
+                                document.write(data);
+                            })
+                    })
+                })
         } else {
             console.log("Can't log you in");
         }

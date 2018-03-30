@@ -53,12 +53,13 @@ let createToken = (user) => {
     return token
 };
 
+// Slicing the authorization value as the request.headers will have key value pair as this ... "authorization: Bearer <token>"
 let userAuthorization = (request, response) => {
     let { authorization } = request.headers;
     let payload;
     let userID;
     try {
-        payload = jwt.verify(authorization, secret)
+        payload = jwt.verify(authorization.slice(7), secret)
     } catch (err) {
         console.log(err);
     };
