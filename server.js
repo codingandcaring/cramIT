@@ -111,7 +111,6 @@ let matchesTheRequest = (request, { method, path }) => {
 };
 
 let processFileRequest = (response, fileName) => {
-    console.log(fileName);
     readFile(`static/${fileName}`)
         .then(fileData => {
             response.end(fileData);
@@ -121,7 +120,6 @@ let processFileRequest = (response, fileName) => {
 
 let serveStaticFiles = (request, response) => {
     var requestFileName = request.url.slice(1);
-    console.log("RFN", requestFileName);
     processFileRequest(response, requestFileName);
 };
 
@@ -131,9 +129,6 @@ let notFound = (request, response) => {
 };
 
 let routes = [
-    // { method: 'GET', path: '', handler: getData },
-    // { method: 'DELETE', path: '', handler: deleteData },
-    // { method: 'PUT', path: '', handler: updateData },
     // When the user wants to return to the flash card category page Route to
     { method: 'GET', path: /^\/categories\/?$/, handler: getCategories },
     // When the Login Request Comes Here Route To
@@ -144,14 +139,12 @@ let routes = [
 
 let server = http.createServer(function(request, response) {
     let regex = /^(\/[a-zA-Z]+)?(\/[a-z]+\.[a-z]+)$/;
-    console.log(request.url);
     if (request.url === '/') {
         request.url = '/index.html';
     }
     if (regex.test(request.url)) {
         serveStaticFiles(request, response);
     } else {
-        console.log("It is not passing reg exp", request.url);
         let params = [];
         let matchedRoute;
         for (let route of routes) {
