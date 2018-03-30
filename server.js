@@ -30,15 +30,21 @@ let processLogin = (request, response, params) => {
         let { username, password } = credentials;
         db.findUser('username', username)
             .then((user) => {
-                if (user[0].password === password) {
-                    let token = createToken(user[0]);
-                    response.end(token)
-                } else {
-                    response.end('No token for you');
-                }
+                bcrypt.compare(password, user[0].password)
+                    .then(isValid => {
+                        if (isValid) {
+                            let token = createToken(user[0]);
+                            response.end(token);
+                        } else {
+                            response.end('No token for you');
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        response.end('Failed to Login');
+                    })
             })
-
-    })
+    });
 };
 
 let createToken = (user) => {
@@ -72,13 +78,12 @@ let createAccount = (request, response) => {
         let userData = JSON.parse(user);
         bcrypt.hash(userData.password, saltRounds)
             .then(hash => {
-                console.log('Hash', hash);
-                console.log('UD', userData);
                 db.insertUser(userData.username, hash, userData.location, userData.email);
                 response.end('New User Stored');
             })
             .catch(error => {
                 console.log(error);
+                response.end('Failed to Add New User');
             })
     });
 };
