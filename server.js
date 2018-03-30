@@ -31,8 +31,10 @@ let processLogin = (request, response, params) => {
                     .then(isValid => {
                         if (isValid) {
                             let token = createToken(user[0]);
+                            console.log('Got a Token', token);
                             response.end(token);
                         } else {
+                            console.log('Invalid password');
                             response.end('No token for you');
                         }
                     })
