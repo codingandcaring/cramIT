@@ -78,12 +78,16 @@ let createAccount = (request, response) => {
         let userData = JSON.parse(user);
         bcrypt.hash(userData.password, saltRounds)
             .then(hash => {
-                db.insertUser(userData.username, hash, userData.location, userData.email);
-                response.end('New User Stored');
+                db.insertUser(userData.username, hash, userData.location, userData.email)
+                    .then(() => response.end('New User Stored'))
+                    .catch(error => {
+                        console.log(error);
+                        response.end('Failed to store User');
+                    })
             })
             .catch(error => {
                 console.log(error);
-                response.end('Failed to Add New User');
+                response.end('Failed to generate Hash');
             })
     });
 };
