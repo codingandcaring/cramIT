@@ -4,6 +4,7 @@
   "description": "<p align=\"center\">     <img width=\"460\" height=\"300\" src=\"./Peter_Pan.png\"> </p> Whether you are experienced or new to the software development field, job interviews can be daunting.  This app will help you to prepare by covering technical questions, as well as common interview strategies, that may come up in an interview.  Use this app to prepare for your interview and land your dream job.",
   "main": "index.js",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "express": "^4.16.3",
     "fs-readdir-promise": "^1.0.1",
     "jsonwebtoken": "^8.2.0",

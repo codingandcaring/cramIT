@@ -2,17 +2,13 @@ const http = require('http');
 const fs = require('fs');
 const readDir = require('fs-readdir-promise');
 const promisify = require('util').promisify;
-const jwt = require('jsonwebtoken');
-const findUser = require('./db');
-
 const readFile = promisify(fs.readFile);
-const express = require('express');
-const app = express();
-const db = require('./db.js');
+const db = require('./database');
+const jwt = require('jsonwebtoken');
+const secret = '1trw_87n$a%rthp';
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const fcCategoryFileName = 'fccategories.html'
-const secret = '1trw_87n$a%rthp'
-
-
 
 //Function to get post data from front end
 let getTextFromServer = (request, callback) => {
@@ -30,24 +26,28 @@ let processLogin = (request, response, params) => {
     getTextFromServer((request), (body) => {
         let credentials = JSON.parse(body);
         let { username, password } = credentials;
-        findUser('username', username)
-        .then( (user) => {
-            if (user[0].password === password) {
-                let token = createToken(user[0]);
-                response.end(token)
-            } else { 
-                response.end('No token for you');
-            }  
-        })
-
-    })
+        db.findUser('username', username)
+            .then((user) => {
+                bcrypt.compare(password, user[0].password)
+                    .then(isValid => {
+                        if (isValid) {
+                            let token = createToken(user[0]);
+                            response.end(token);
+                        } else {
+                            response.end('No token for you');
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        response.end('Failed to Login');
+                    })
+            })
+    });
 };
 
 let createToken = (user) => {
-    let token = jwt.sign(
-    {userID: user.id},
-    secret,
-    {expiresIn: '7d' }
+    let token = jwt.sign({ userID: user.id },
+        secret, { expiresIn: '7d' }
     );
     return token
 };
@@ -68,7 +68,28 @@ let userAuthorization = (request, response) => {
     return false;
 }
 
-    
+// Function to create account for the user - process new user account from JSON data retrieved and 
+// store the credentials in the database
+// signup request - http://localhost:3000/signup
+// sample JSON request - { "username": "joe smith", "password": "password", "location": "Atlanta, GA", "email": "joe@joe.com" }
+let createAccount = (request, response) => {
+    getTextFromServer((request), (user) => {
+        let userData = JSON.parse(user);
+        bcrypt.hash(userData.password, saltRounds)
+            .then(encryptedPwd => {
+                db.insertUser(userData.username, encryptedPwd, userData.location, userData.email)
+                    .then(() => response.end('New User Stored'))
+                    .catch(error => {
+                        console.log(error);
+                        response.end('Failed to store User');
+                    })
+            })
+            .catch(error => {
+                console.log(error);
+                response.end('Failed to generate Hash');
+            })
+    });
+};
 
 // Function whenever user wants to return category page 
 let getCategories = (request, response) => {
@@ -120,10 +141,12 @@ let routes = [
     // { method: 'GET', path: '', handler: getData },
     // { method: 'DELETE', path: '', handler: deleteData },
     // { method: 'PUT', path: '', handler: updateData },
-    // When the user wants to return to the flash card category page route to
+    // When the user wants to return to the flash card category page Route to
     { method: 'GET', path: /^\/categories\/?$/, handler: getCategories },
     // When the Login Request Comes Here Route To
-    { method: 'POST', path: /^\/tokens\/?$/, handler: processLogin }
+    { method: 'POST', path: /^\/tokens\/?$/, handler: processLogin },
+    // When the Create New Account Request Comes Here Route To
+    { method: 'POST', path: /^\/signup\/?$/, handler: createAccount }
 ];
 
 let server = http.createServer(function(request, response) {
