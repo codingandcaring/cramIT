@@ -46,8 +46,10 @@ let processLogin = (request, response, params) => {
 };
 
 let createToken = (user) => {
-    let token = jwt.sign({ userID: user.id },
-        secret, { expiresIn: '7d' }
+    let token = jwt.sign(
+        { userID: user.id },
+        secret, 
+        { expiresIn: '7d' }
     );
     return token
 };
@@ -61,7 +63,6 @@ let userAuthorization = (request, response) => {
     } catch (err) {
         console.log(err);
     };
-
     if (payload) {
         return userID = payload.userID;
     }
@@ -150,7 +151,7 @@ let routes = [
 ];
 
 let server = http.createServer(function(request, response) {
-    let regex = /^(\/[a-z]+\.[a-z]+)$/;
+    let regex = /^(\/[a-zA-Z]+)?(\/[a-z]+\.[a-z]+)$/;
     if (request.url === '/') {
         request.url = '/index.html';
     }

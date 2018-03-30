@@ -20,8 +20,8 @@
     <div class="pop-up-login">
         <form action="/login" method="post">
             <span class="close-button">close</span>
-            <input type="text" placeholder="username"/>
-            <input type="password" placeholder="password"/>
+            <input type="text" name="username" placeholder="username"/>
+            <input type="password" name="password" placeholder="password"/>
             <button class="button" type="submit">login</button>
             <p class="message">Not registered? <a href="#">Create an account</a></p>
         </form>
@@ -29,10 +29,10 @@
     <div class="pop-up-create-account">
         <form class="register-form">
             <span class="close-button">close</span>
-            <input type="text" placeholder="name"/>
-            <input type="password" placeholder="password"/>
-            <input type="text" placeholder="email address"/>
-            <input type="text" placeholder="city, state"/>
+            <input type="text" name="username" placeholder="name"/>
+            <input type="password" name="password" placeholder="password"/>
+            <input type="text" name="email" placeholder="email address"/>
+            <input type="text" name="location" placeholder="city, state"/>
             <button class="button" type="submit">create</button>
             <p class="message">Already registered? <a href="#">Sign In</a></p>
         </form>

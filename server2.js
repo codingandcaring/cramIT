@@ -5,7 +5,10 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const jwt = require('jsonwebtoken');
-const findUser = require('./database');
+const db = require('./database');
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 // will change to enviroment variable when deploying
 const secret = '1trw_87n$a%rthp'
@@ -51,9 +54,12 @@ app.get('/jobsearch', function(req, res) {
 
 app.post('/login', function (req, res) {
   //res.send('Got a POST request')
-  //console.log(req.body.username);
   //console.log(req.body.password);
   processLogin(req, res);
+})
+
+app.post('/signup', function (req, res) {
+    createAccount(req, res);
 })
 
 // card functionality list add delete view ect.
@@ -67,26 +73,28 @@ app.post('/listCards/newCard', function(req, res) {
     //res.sendFile(path.join(__dirname + '/static/cardList.html'));
 });
 
-
 // login related
 // Function to Handle Login Request
 let processLogin = (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
-    findUser('username', username)
-        .then( (user) => {
-            console.log(username + " : " + password);
-            console.log(user);
-            if (user[0].password === password) {
-                let token = createToken(user[0]);
-                //console.log(token);
-                //res.end(token)
-                res.redirect('/fccategories');
-            } else {
-                res.redirect('/');
-                //res.end('No token for you');
-            }
-        })
+    db.findUser('username', username)
+    .then((user) => {
+        console.log(user);
+        bcrypt.compare(password, user[0].password)
+            .then(isValid => {
+                if (isValid) {
+                    let token = createToken(user[0]);
+                    response.end(token);
+                } else {
+                    response.end('No token for you');
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                response.end('Failed to Login');
+            })
+    })
 };
 
 let createToken = (user) => {
@@ -98,5 +106,37 @@ let createToken = (user) => {
     return token
 };
 
+//authorizes users to view pages past the login page based on their json webtoken
+let userAuthorization = (request, response) => {
+    let { authorization } = request.headers;
+    let payload;
+    let userID;
+    try {
+        payload = jwt.verify(authorization, secret)
+    } catch (err) {
+        console.log(err);
+    };
+    if (payload) {
+        return userID = payload.userID;
+    }
+    return false;
+}
+
+let createAccount = (req, res) => {
+    let userData = req.body;
+    bcrypt.hash(userData.password, saltRounds)
+        .then(encryptedPwd => {
+            db.insertUser(userData.username, encryptedPwd, userData.location, userData.email)
+                .then(() => res.end('New User Stored'))
+                .catch(error => {
+                    console.log(error);
+                    res.end('Failed to store User');
+                })
+        })
+        .catch(error => {
+            console.log(error);
+            res.end('Failed to generate Hash');
+        })
+};
 
 app.listen(3000);

@@ -18,6 +18,7 @@ let triggerCreateAccountWindow = (event) => {
 }
 
 let userLogin = () => {
+    let form = document.querySelector('body > div > div.pop-up-login.active > form')
     let username = form.username.value;
     let password = form.password.value;
     console.log(username + " : " + password);
