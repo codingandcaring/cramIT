@@ -18,13 +18,17 @@ let triggerCreateAccountWindow = (event) => {
 }
 
 let userLogin = () => {
+    let form = document.querySelector('body > div > div.pop-up-login.active > form')
     let username = form.username.value;
     let password = form.password.value;
+    form.reset();
     console.log(username + " : " + password);
 };
 
 let createNewAccount = (event) => {
     event.preventDefault()
+    let form = document.querySelector('body > div > div.pop-up-create-account.active > form')
+    form.reset();
     console.log(event);
 }
 
