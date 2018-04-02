@@ -5,17 +5,21 @@ let ws = new WebSocketServer({
 	port: port
 });
 
-ws.on('connection', (client, req) => {
-    console.log('client connection established');
-    var id = req.headers['sec-websocket-key'];
-    ws.clients.forEach( (client) => {
-        client.send(`Welcome to the channel ${id}`)
-    })
+users=[];
 
+ws.on('connection', (client, req) => {
+    let userName;
 	client.on('message', (data) => {
-        console.log('message received: ' + data);
+        if (userName === undefined) {
+            userName = data;
+            users.push(userName);
+            ws.clients.forEach( (client) => {
+                client.send(`users:${users}`)
+            });
+        } else {
         ws.clients.forEach( (client) => {
-                client.send(data);
+                client.send(`${userName}: ${data}`);
         });
-	});
+	    };
+})
 });
