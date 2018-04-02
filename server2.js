@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 
 /* middleware for authorizing users to protect routes */
 let loggedIn = function(req, res, next) {
-    if(userAuthorization(req, res)) {
+    if (userAuthorization(req, res)) {
         return next();
     } else {
         return res.redirect("/");
@@ -84,6 +84,7 @@ app.get('/listCards', function(req, res) {
 app.get('/newCard', loggedIn, function(req, res) {
     //res.send('Making a new card eh?');
     res.sendFile(path.join(__dirname + '/static/newCard.html'));
+});
 
 app.post('/newCard', function(req, res) {
     addQuestion(req, res);
@@ -101,7 +102,7 @@ let processLogin = (req, res) => {
                 .then(isValid => {
                     if (isValid) {
                         let token = createToken(user[0]);
-                        
+
                         res.end(token);
                     } else {
                         res.end('No token for you');
@@ -126,7 +127,7 @@ let createToken = (user) => {
 let userAuthorization = (request, response) => {
 
     console.log('in user auth function');
-    
+
     console.log(request.headers);
     let { authorization } = request.headers;
     let payload;
@@ -163,8 +164,8 @@ let createAccount = (req, res) => {
 let addQuestion = (req, res) => {
     let questionData = req.body;
     console.log(req.body);
-    db.insertQuestion(questionData.category, questionData.question, 
-                    questionData.answer, questionData.difficulty)
+    db.insertQuestion(questionData.category, questionData.question,
+            questionData.answer, questionData.difficulty)
         .then(() => res.end('New Question stored'))
         .catch(error => {
             console.log(error);
