@@ -18,7 +18,6 @@ body {
     box-sizing: border-box;
 }
 
-
 /* Header */
 
 #header {
@@ -84,52 +83,4 @@ div span {
     color: #DADADA;
     font-weight: bold;
     width: 100%;
-}
-
-
-/* Navigation Bar */
-
-#nav-bar {
-    height: 75px;
-    width: 100vw;
-    display: flex;
-    position: fixed;
-    /* position: sticky; */
-    bottom: 0;
-    background-color: #E7EBEE;
-    border-top: 1px solid #B9C4CC;
-}
-
-#nav-bar ul {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    list-style-type: none;
-}
-
-#nav-bar a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 10px 15px;
-    color: gray;
-    width: 25%;
-    height: 100%;
-}
-
-.icon {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.icon img {
-    width: 50%;
 }

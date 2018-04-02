@@ -4,6 +4,7 @@ const promisify = require('util').promisify;
 const readFile = promisify(fs.readFile);
 const db = require('./database');
 const jwt = require('jsonwebtoken');
+let WS = require('./websocket');
 const secret = '1trw_87n$a%rthp';
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
