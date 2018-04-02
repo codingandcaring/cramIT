@@ -1,29 +1,57 @@
 html, body {
     width: 100%;
     height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .chatbox {
     width: 100%;
+    height: 95%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+
 }
 
 .sidebar {
-    width: 20%;
+    width: 25%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    text-align: center;
+    background-color: #F4F4F6;
 
 }
 
 .chat-wrapper {
-    width: 80%;
+    width: 75%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.chat-header {
+    height: 10%;
+    width: 100%;
+    text-align: center;
+}
+
+.chat-messages {
+    height: 80%;
+    width: 100%;
+}
+
+.chat-input {
+    height: 10%;
+    width: 100%;
+}
+
+.chat-message-list {
+    list-style: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
 }

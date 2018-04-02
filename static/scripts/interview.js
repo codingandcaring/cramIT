@@ -1,7 +1,6 @@
 let ws = new WebSocket('ws://localhost:3001') 
 
-let form = document.querySelector('body > div > section > form');
-let panel = document.querySelector('body > div > div');
+let form = document.querySelector('body > div.chatbox > div > section > form');
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -23,6 +22,6 @@ let createMessageLiElement = (message) => {
 }
 
 let appendLiToUl = (li) => {
-    let ul = document.querySelector('body > div > div > ul');
+    let ul = document.querySelector('body > div.chatbox > div > div > ul');
     ul.appendChild(li);
 }
