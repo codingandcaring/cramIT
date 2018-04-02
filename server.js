@@ -1,6 +1,5 @@
 const http = require('http');
 const fs = require('fs');
-const readDir = require('fs-readdir-promise');
 const promisify = require('util').promisify;
 const readFile = promisify(fs.readFile);
 const db = require('./database');
@@ -32,8 +31,10 @@ let processLogin = (request, response, params) => {
                     .then(isValid => {
                         if (isValid) {
                             let token = createToken(user[0]);
+                            console.log('Got a Token', token);
                             response.end(token);
                         } else {
+                            console.log('Invalid password');
                             response.end('No token for you');
                         }
                     })
@@ -46,20 +47,19 @@ let processLogin = (request, response, params) => {
 };
 
 let createToken = (user) => {
-    let token = jwt.sign(
-        { userID: user.id },
-        secret, 
-        { expiresIn: '7d' }
+    let token = jwt.sign({ userID: user.id },
+        secret, { expiresIn: '7d' }
     );
     return token
 };
 
+// Slicing the authorization value as the request.headers will have key value pair as this ... "authorization: Bearer <token>"
 let userAuthorization = (request, response) => {
     let { authorization } = request.headers;
     let payload;
     let userID;
     try {
-        payload = jwt.verify(authorization, secret)
+        payload = jwt.verify(authorization.slice(7), secret)
     } catch (err) {
         console.log(err);
     };
@@ -114,16 +114,9 @@ let matchesTheRequest = (request, { method, path }) => {
 };
 
 let processFileRequest = (response, fileName) => {
-    readDir('static', files => {
-            return files;
-        })
-        .then(files => {
-            if (files.indexOf(fileName) !== -1) {
-                readFile(`static/${fileName}`)
-                    .then(fileData => {
-                        response.end(fileData);
-                    })
-            }
+    readFile(`static/${fileName}`)
+        .then(fileData => {
+            response.end(fileData);
         })
         .catch(error => console.log(error))
 };
@@ -139,9 +132,6 @@ let notFound = (request, response) => {
 };
 
 let routes = [
-    // { method: 'GET', path: '', handler: getData },
-    // { method: 'DELETE', path: '', handler: deleteData },
-    // { method: 'PUT', path: '', handler: updateData },
     // When the user wants to return to the flash card category page Route to
     { method: 'GET', path: /^\/categories\/?$/, handler: getCategories },
     // When the Login Request Comes Here Route To

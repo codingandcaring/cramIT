@@ -40,9 +40,9 @@ CREATE TABLE user_progress (
 );
 
 INSERT INTO users (username, password, email) VALUES 
-    ('nick', 'bla', 'logikfx@gmail.com'),
-    ('ashley', 'bla', 'bla@gmail.com'),
-    ('prathyusha', 'bla', 'blabla@gmail.com');
+    ('nick', '$2a$10$8BnInY3Vd2Tafs6lAYvceuXeCECoVTUPJ4wZ4LY6Cl/qHmADJtoVi', 'logikfx@gmail.com'),
+    ('ashley', '$2a$10$bQvguGBqqkI.FcQKjUn1KO9.lP54NHIFp1UWWPYGZXFVZV23QuL1u', 'bla@gmail.com'),
+    ('prathyusha', '$2a$10$TENai6QG7BWzwA.gqAwdI.P40Zct1IYWHs1ylV4A40pbg1fliQxrS', 'blabla@gmail.com');
 
 
 INSERT INTO cards (category_name, question, answer, difficulty) VALUES

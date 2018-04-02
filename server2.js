@@ -34,7 +34,7 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/static/index.html'));
 });
 
-app.get('/fccategories', function(req, res) {
+app.get('/categories', function(req, res) {
     res.sendFile(path.join(__dirname + '/static/fccategories.html'));
 });
 
@@ -50,15 +50,12 @@ app.get('/jobsearch', function(req, res) {
     res.sendFile(path.join(__dirname + '/static/jobsearch.html'));
 });
 
-
-
-app.post('/login', function (req, res) {
-  //res.send('Got a POST request')
-  //console.log(req.body.password);
-  processLogin(req, res);
+app.post('/tokens', function(req, res) {
+    //console.log(req.body.password);
+    processLogin(req, res);
 })
 
-app.post('/signup', function (req, res) {
+app.post('/signup', function(req, res) {
     createAccount(req, res);
 })
 
@@ -79,40 +76,38 @@ let processLogin = (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     db.findUser('username', username)
-    .then((user) => {
-        console.log(user);
-        bcrypt.compare(password, user[0].password)
-            .then(isValid => {
-                if (isValid) {
-                    let token = createToken(user[0]);
-                    response.end(token);
-                } else {
-                    response.end('No token for you');
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                response.end('Failed to Login');
-            })
-    })
+        .then((user) => {
+            bcrypt.compare(password, user[0].password)
+                .then(isValid => {
+                    if (isValid) {
+                        let token = createToken(user[0]);
+                        res.end(token);
+                    } else {
+                        res.end('No token for you');
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    res.end('Failed to Login');
+                })
+        })
 };
 
 let createToken = (user) => {
-    let token = jwt.sign(
-    {userID: user.ID},
-    secret,
-    {expiresIn: '7d' }
+    let token = jwt.sign({ userID: user.ID },
+        secret, { expiresIn: '7d' }
     );
     return token
 };
 
 //authorizes users to view pages past the login page based on their json webtoken
+// Slicing the authorization value as the request.headers will have key value pair as this ... "authorization: Bearer <token>"
 let userAuthorization = (request, response) => {
     let { authorization } = request.headers;
     let payload;
     let userID;
     try {
-        payload = jwt.verify(authorization, secret)
+        payload = jwt.verify(authorization.slice(7), secret)
     } catch (err) {
         console.log(err);
     };
