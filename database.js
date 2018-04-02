@@ -23,11 +23,15 @@ let listQuestionCategories = () => {
     return db.query(`SELECT DISTINCT ON (category_name) category_name from cards`);
 };
 
-
+let getFlashCards = (category_name) => {
+    return db.query(`SELECT * From cards WHERE category_name = '${category_name}';`)
+};
 
 module.exports = {
     findUser,
     insertUser,
+    getFlashCards,
     insertQuestion,
     listQuestionCategories
 }
+

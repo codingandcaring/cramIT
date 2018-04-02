@@ -65,6 +65,7 @@ let userAuthorization = (request, response) => {
         console.log(err);
     };
     if (payload) {
+        console.log('User Authorization', payload.userID);
         return userID = payload.userID;
     }
     return false;
@@ -103,6 +104,18 @@ let getCategories = (request, response) => {
     }
 };
 
+let getFlashCards = (request, response, params) => {
+    let authorizedUser = userAuthorization(request, response);
+    if (authorizedUser) {
+        db.getFlashCards(params[0].replace('%20', ' '))
+            .then(data => {
+                console.log(data);
+                response.end(JSON.stringify(data))
+            })
+            .catch(error => console.log(error))
+    }
+};
+
 let matchesTheRequest = (request, { method, path }) => {
     var sameMethod = request.method === method;
     if (sameMethod) {
@@ -135,6 +148,8 @@ let notFound = (request, response) => {
 let routes = [
     // When the user wants to return to the flash card category page Route to
     { method: 'GET', path: /^\/categories\/?$/, handler: getCategories },
+    // When the request to get the flash cards with the Category Name then Route to
+    { method: 'GET', path: /^\/fcquestions\/([a-zA-Z0-9% ]+)$/, handler: getFlashCards },
     // When the Login Request Comes Here Route To
     { method: 'POST', path: /^\/tokens\/?$/, handler: processLogin },
     // When the Create New Account Request Comes Here Route To
