@@ -31,12 +31,8 @@ ws.addEventListener('message', function(event) {
     if (usernameRegex.exec(event.data)) {
         let users = (event.data).toString();
         userList.push(users);
-        userList.forEach( (participant) => {
-            participant = participant.replace('users:', '');
-            while (ul.firstChild) ul.removeChild(ul.firstChild);
-            let li = createLiElement(participant);
-            appendLiToUl(li, ul);
-        });
+        while (ul.firstChild) ul.removeChild(ul.firstChild);
+        appendParticipantList(userList, ul);
     } else {
     let li = createLiElement(event.data);
     let ul = document.querySelector('body > div.chatbox > div > div > ul');
@@ -52,4 +48,15 @@ let createLiElement = (message) => {
 
 let appendLiToUl = (li, ul) => {
     ul.appendChild(li);
+}
+
+let appendParticipantList = (userList, ul) => {
+    userList.forEach( (participant) => {
+        participant = participant.replace('users:', '');
+        participants = participant.split(',')
+        participants.forEach( (item) => {
+            let li = createLiElement(item);
+            appendLiToUl(li, ul);
+        })
+    });
 }
