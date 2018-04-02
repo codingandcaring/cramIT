@@ -16,7 +16,7 @@ let insertUser = (username, password, location, email) => {
 
 let insertQuestion = (category_name, question, answer, difficulty) => {
     return db.query(`INSERT INTO cards (category_name, question, answer, difficulty)
-                     VALUES ('${category_name}', '${question}', '${answer}', '${difficulty}');`);
+                     VALUES ('${category_name}', '${question}', '${answer}', '${difficulty}');`)
 };
 
 let listQuestionCategories = () => {
@@ -27,5 +27,7 @@ let listQuestionCategories = () => {
 
 module.exports = {
     findUser,
-    insertUser
+    insertUser,
+    insertQuestion,
+    listQuestionCategories
 }

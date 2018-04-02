@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>cramIT</title>
+    <link rel="icon" href="images/cards.png">
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+</head>
+<body>
+    <form method="post" action="/newCard">
+        <div class="form-field">
+            <label for="category">Category</label>
+            <textarea class="input" id="category" name="category" autofocus>
+            </textarea>
+        </div>
+        <div class="form-field">
+            <label for="question">Question</label>
+            <textarea class="input" id="question" name="question"></textarea>
+        </div>
+         <div class="form-field">
+            <label for="answer">Answer</label>
+            <textarea class="input" id="answer" name="answer"></textarea>
+        </div>
+        
+        <div class="add-question-radio">
+            <input type="radio" id="difficultyChoice1"
+            name="difficulty" value="easy" checked>
+            <label for="difficultyChoice1">Easy</label>
+
+            <input type="radio" id="difficultyChoice2"
+            name="difficulty" value="medium">
+            <label for="difficultyChoice2">Medium</label>
+
+            <input type="radio" id="difficultyChoice3"
+            name="difficulty" value="hard">
+            <label for="difficultyChoice3">Hard</label>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn" type="submit">Send</button>
+        </div>
+    </form>
+
+</body>
+</html>
