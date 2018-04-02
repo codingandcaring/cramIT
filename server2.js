@@ -77,7 +77,6 @@ let processLogin = (req, res) => {
     let password = req.body.password;
     db.findUser('username', username)
         .then((user) => {
-            console.log(user);
             bcrypt.compare(password, user[0].password)
                 .then(isValid => {
                     if (isValid) {
