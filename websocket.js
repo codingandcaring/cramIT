@@ -5,14 +5,16 @@ let ws = new WebSocketServer({
 	port: port
 });
 
+users=[];
 
 ws.on('connection', (client, req) => {
     let userName;
 	client.on('message', (data) => {
         if (userName === undefined) {
             userName = data;
+            users.push(userName);
             ws.clients.forEach( (client) => {
-                client.send(`username:${userName}`)
+                client.send(`users:${users}`)
             });
         } else {
         ws.clients.forEach( (client) => {

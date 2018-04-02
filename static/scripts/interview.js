@@ -25,12 +25,18 @@ form.addEventListener('submit', (event) => {
 })
 
 ws.addEventListener('message', function(event) {
-    let usernameRegex = /^username:([a-zA-Z0-9]+)$/
+    let usernameRegex = /^users:/
+    let ul = document.querySelector('body > div.chatbox.active > nav > ul')
+    let userList = [];
     if (usernameRegex.exec(event.data)) {
-        let userName = usernameRegex.exec(event.data)[1];
-        let li = createLiElement(userName);
-        let ul = document.querySelector('body > div.chatbox.active > nav > ul')
-        appendLiToUl(li, ul);
+        let users = (event.data).toString();
+        userList.push(users);
+        userList.forEach( (participant) => {
+            participant = participant.replace('users:', '');
+            while (ul.firstChild) ul.removeChild(ul.firstChild);
+            let li = createLiElement(participant);
+            appendLiToUl(li, ul);
+        });
     } else {
     let li = createLiElement(event.data);
     let ul = document.querySelector('body > div.chatbox > div > div > ul');
