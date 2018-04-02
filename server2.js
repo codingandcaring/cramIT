@@ -1,4 +1,4 @@
-/* server2.js express version */
+/ server2.js express version */
 
 const express = require('express');
 const bodyParser = require("body-parser");
@@ -29,6 +29,14 @@ app.use(bodyParser.urlencoded({
  */
 app.use(bodyParser.json());
 
+/* middleware for authorizing users to protect routes */
+let loggedIn = function(req, res, next) {
+    if(userAuthorization(req, res)) {
+        return next();
+    } else {
+        return res.redirect("/");
+    }
+};
 
 // index landing page
 app.get('/', function(req, res) {
@@ -66,7 +74,7 @@ app.get('/listCards', function(req, res) {
 });
 
 
-app.get('/newCard', function(req, res) {
+app.get('/newCard', loggedIn, function(req, res) {
     //res.send('Making a new card eh?');
     res.sendFile(path.join(__dirname + '/static/newCard.html'));
 });
@@ -87,6 +95,7 @@ let processLogin = (req, res) => {
                 .then(isValid => {
                     if (isValid) {
                         let token = createToken(user[0]);
+                        
                         res.end(token);
                     } else {
                         res.end('No token for you');
@@ -109,11 +118,16 @@ let createToken = (user) => {
 //authorizes users to view pages past the login page based on their json webtoken
 // Slicing the authorization value as the request.headers will have key value pair as this ... "authorization: Bearer <token>"
 let userAuthorization = (request, response) => {
+
+    console.log('in user auth function');
+    
+    console.log(request.headers);
     let { authorization } = request.headers;
     let payload;
     let userID;
+    console.log('authorization: ' + authorization);
     try {
-        payload = jwt.verify(authorization.slice(7), secret)
+        payload = jwt.verify(authorization, secret); // was authorization.slice(7)
     } catch (err) {
         console.log(err);
     };

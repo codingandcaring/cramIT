@@ -45,6 +45,7 @@ let userLogin = (event) => {
                 .then(({ done, value }) => {
                     let tokenValue = new TextDecoder("utf-8").decode(value);
                     console.log("token value", tokenValue);
+                    localStorage.setItem('authorization', tokenValue);
                     return tokenValue;
                 })
                 .then(tokenValue => {
@@ -61,6 +62,7 @@ let userLogin = (event) => {
                                 document.write(data);
                             })
                     })
+                    //localStorage.setItem('authorization', tokenValue);
                 })
         } else {
             console.log("Can't log you in");
