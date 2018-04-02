@@ -48,3 +48,20 @@
     color: white;
     font-size: 1.5em;
 }
+
+#header {
+    height: 75px;
+    width: 100vw;
+    /* position: fixed; */
+    position: sticky;
+    top: 0;
+    display: flex;
+    background-color: #F4F4F6;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #B9C4CC;
+}
+
+.logo {
+    height: 70%;
+}

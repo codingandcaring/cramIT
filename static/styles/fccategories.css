@@ -35,7 +35,6 @@ body {
 
 .logo {
     height: 70%;
-    width: 70%;
 }
 
 
@@ -83,4 +82,11 @@ div span {
     color: #DADADA;
     font-weight: bold;
     width: 100%;
+}
+
+@media (min-width: 1200px) {
+    #categories div {
+        height: 200px;
+        width: 200px;
+    }
 }
