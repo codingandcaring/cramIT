@@ -65,9 +65,13 @@ app.get('/listCards', function(req, res) {
 });
 
 
-app.post('/listCards/newCard', function(req, res) {
-    res.send('Making a new card eh?');
-    //res.sendFile(path.join(__dirname + '/static/cardList.html'));
+app.get('/newCard', function(req, res) {
+    //res.send('Making a new card eh?');
+    res.sendFile(path.join(__dirname + '/static/newCard.html'));
+});
+
+app.post('/newCard', function(req, res) {
+    addQuestion(req, res);
 });
 
 // login related
@@ -132,6 +136,18 @@ let createAccount = (req, res) => {
             console.log(error);
             res.end('Failed to generate Hash');
         })
+};
+
+let addQuestion = (req, res) => {
+    let questionData = req.body;
+    console.log(req.body);
+    db.insertQuestion(questionData.category, questionData.question, 
+                    questionData.answer, questionData.difficulty)
+        .then(() => res.end('New Question stored'))
+        .catch(error => {
+            console.log(error);
+            res.end('Failed to store User');
+        });
 };
 
 app.listen(3000);

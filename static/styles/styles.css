@@ -119,5 +119,19 @@ input[type=password] {
     font-size: 1.3em;
 }
 
+.add-question-radio {
+    background:#BBBBBB;
+}
 
+input[type=radio]:checked ~ .check {
+  border: 5px solid #0DFF92;
+}
+
+input[type=radio]:checked ~ .check::before{
+  color: #0DFF92;
+}
+
+input[type=radio]:checked ~ label{
+  color: #0DFF92;
+}
 
