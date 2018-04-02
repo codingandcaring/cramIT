@@ -46,7 +46,7 @@ INSERT INTO users (username, password, email) VALUES
 
 
 INSERT INTO cards (category_name, question, answer, difficulty) VALUES
-    'HTMLCSS', 'What does HTML stand for?', 'Hyper Text Markup Language', 'easy'),
+    ('HTMLCSS', 'What does HTML stand for?', 'Hyper Text Markup Language', 'easy'),
     ('HTMLCSS', 'What does CSS stand for?', 'Cascading Style Sheets', 'easy'),
     ('HTMLCSS', 'How do you define a pseudo class in CSS? What are they used for?', 'You can define a pseudo class by listing the selector followed by a colon and finally the pseudo class element. Pseudo classes can be used to give elements special states—the most common example being a:hover, which is used to change the color of a link when a mouse hovers over it. Other uses include using distinct styling for visited and unvisited links and styling an element differently when focused.', 'medium'),
     ('JavaScript', 'What is the use of isNaN function?', 'isNaN function returns true if the argument is not a number otherwise it is false' ,'easy'),
