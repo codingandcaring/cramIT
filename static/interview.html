@@ -7,12 +7,12 @@
     <title>cramIT</title>
     <link rel="icon" href="images/cards.png">
     <link rel="stylesheet" type="text/css" href="styles/interview.css">
-    <link rel="stylesheet" type="text/css" href="styles/fccategories.css">
     <link rel="stylesheet" type="text/css" href="styles/navbar.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
 </head>
 
 <body>
+
     <div class="chatbox">
         <nav class="sidebar">
             <h4>Participants</h4>
@@ -32,10 +32,9 @@
         <section class="chat-input">
             <form data-chat="chat-form" class="cb-container">
             <div class="input-group">
-                <label for="js-message-input" class="sr-only">Message:</label>
-                <input type="text" name="message" class="form-control" data-chat="message-input" autofocus>
+                <input type="text" name="message" class="form-control" data-chat="message-input" placeholder="Message" autofocus>
                 <span class="input-group-btn">
-                <button class="btn btn-default" type="submit">Go!</button>
+                <button class="send-button" type="submit">Send</button>
                 </span>
             </div>
             </form>
