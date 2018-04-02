@@ -47,8 +47,16 @@ app.get('/categories', function(req, res) {
     res.sendFile(path.join(__dirname + '/static/fccategories.html'));
 });
 
-app.get('/fcquestions', function(req, res) {
-    res.sendFile(path.join(__dirname + '/static/fcquestions.html'));
+app.get('/fcquestions/:categoryName', function(req, res) {
+    var categoryName = req.params.categoryName;
+    let authorizedUser = userAuthorization(req, res);
+    if (authorizedUser) {
+        db.getFlashCards(categoryName)
+            .then(data => {
+                res.end(JSON.stringify(data))
+            })
+            .catch(error => console.log(error))
+    }
 });
 
 app.get('/interview', function(req, res) {
@@ -73,11 +81,9 @@ app.get('/listCards', function(req, res) {
     res.sendFile(path.join(__dirname + '/static/listCards.html'));
 });
 
-
 app.get('/newCard', loggedIn, function(req, res) {
     //res.send('Making a new card eh?');
     res.sendFile(path.join(__dirname + '/static/newCard.html'));
-});
 
 app.post('/newCard', function(req, res) {
     addQuestion(req, res);
