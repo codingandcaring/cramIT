@@ -11,6 +11,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 // will change to enviroment variable when deploying
+// const secret = process.env.secretvarname
 const secret = '1trw_87n$a%rthp'
 
 let path = require('path');
