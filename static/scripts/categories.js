@@ -52,7 +52,7 @@ let processFlashCardCategory = (category_name) => {
         return results.json();
     })
     .then( (questions) => {
-        localStorage.setItem('questions', questions)
+        localStorage.setItem('questions', JSON.stringify(questions));
         appendQuestionToFlashCard(questions);
     })
 }
@@ -68,6 +68,12 @@ let appendQuestionToFlashCard = (questions) => {
     let question = document.createElement('h2');
     question.textContent = item.question;
     questionDiv.appendChild(question);
+    let id = document.createElement('h5');
+    id.textContent = item.id;
+    let idDiv = document.querySelector('.question-id');
+    idDiv.appendChild(id);
+    header.textContent = item.category_name;
+    questionDiv.appendChild(header);
     let showAnswer = document.querySelector('#flashcard-lightbox > div > div.answer-buttons > button.flashcard-submit')
     showAnswer.addEventListener('click', (event) => {
         while (answerDiv.firstChild) answerDiv.removeChild(answerDiv.firstChild);
@@ -105,11 +111,13 @@ let closeWindow = (event) => {
 };
 
 let nextQuestion = (event) => {
-    console.log(event);
+    let currentQuestionID = document.querySelector('#flashcard-lightbox > div > span.question-id > h5')
+    console.log(currentQuestionID.textContent);
 }
 
 let previousQuestion = (event) => {
-    console.log(event);
+    let currentQuestionID = document.querySelector('#flashcard-lightbox > div > span.question-id > h5')
+    console.log(currentQuestionID.textContent);
 }
 
 let eventListeners = () => {
