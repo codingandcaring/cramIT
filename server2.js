@@ -102,8 +102,8 @@ app.post('/newCard', function(req, res) {
 });
 
 app.get('/userpage', function(req, res) {
-    // console.log("Coming here for with req headers", req.headers);
-    displayUserInformation(req, res);;
+    console.log("Coming here for with req headers", req.headers);
+    displayUserInformation(req, res);
 });
 
 // login related
@@ -131,42 +131,47 @@ let processLogin = (req, res) => {
 };
 
 let createToken = (user) => {
-    let token = jwt.sign({ userID: user.ID },
+    let token = jwt.sign({ userID: user.id },
         secret, { expiresIn: '7d' }
     );
-    return token
+    return token;
 };
 
 let displayUserInformation = (req, res) => {
-    let username = 'ashley' /////this needs to be replaced with token
-    db.findUser('username', username)
-        .then((user) => {
-            let userInfo = { 'username': user[0].username, 'location': user[0].location, 'email': user[0].email }
-            console.log(userInfo)
-            res.end(JSON.stringify(userInfo))
-        })
-        .catch(error => {
-            console.log(error);
-            res.end('Failed to Find User');
-        })
-}
+    // let username = 'ashley' /////this needs to be replaced with token
+    let authorizedUser = userAuthorization(req, res);
+    console.log("Authorized User", authorizedUser);
+    // db.findUser('username', username)
+    //     .then((user) => {
+    //         let userInfo = { 'username': user[0].username, 'location': user[0].location, 'email': user[0].email }
+    //         console.log(userInfo)
+    //         res.end(JSON.stringify(userInfo))
+    //     })
+    //     .catch(error => {
+    //         console.log(error);
+    //         res.end('Failed to Find User');
+    //     })
+};
 
 //authorizes users to view pages past the login page based on their json webtoken
 // Slicing the authorization value as the request.headers will have key value pair as this ... "authorization: Bearer <token>"
 let userAuthorization = (request, response) => {
+    console.log("Req headers inside authorization", request.headers);
     let { authorization } = request.headers;
     let payload;
     try {
+        console.log(authorization.slice(7));
         payload = jwt.verify(authorization.slice(7), secret);
+        console.log(payload);
     } catch (err) {
         console.log(err);
-    };
+    }
     if (payload) {
         console.log('User Authorization', payload.userID);
         return userID = payload.userID;
     }
     return false;
-}
+};
 
 let createAccount = (req, res) => {
     let userData = req.body;
