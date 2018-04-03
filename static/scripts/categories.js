@@ -44,6 +44,8 @@ let processFlashCardCategory = (category_name) => {
     let categories = document.querySelector('#categories');
     lightbox.classList.add('active');
     categories.classList.add('active')
+    let closeButton = document.querySelector('#flashcard-lightbox > div > span')
+    closeButton.addEventListener('click', closeWindow);
     let tokenValue = localStorage.getItem('authorization');
     fetch(`/fcquestions/${category_name}`, {
         method: 'GET',
@@ -60,16 +62,32 @@ let processFlashCardCategory = (category_name) => {
 }
 
 let appendQuestionToFlashCard = (questions) => {
-    let item = questions[0]
+    let item = questions[0];
     let questionDiv = document.querySelector('.question');
+    let answerDiv = document.querySelector('.answer');
+    while (questionDiv.firstChild) questionDiv.removeChild(questionDiv.firstChild);
+    while (answerDiv.firstChild) answerDiv.removeChild(answerDiv.firstChild);
     let header = document.createElement('h1');
     header.textContent = item.category_name;
     questionDiv.appendChild(header);
     let question = document.createElement('h2');
     question.textContent = item.question;
     questionDiv.appendChild(question);
-    
+    let showAnswer = document.querySelector('#flashcard-lightbox > div > div.answer-buttons > button.flashcard-submit')
+    showAnswer.addEventListener('click', (event) => {
+        while (answerDiv.firstChild) answerDiv.removeChild(answerDiv.firstChild);
+        let answer = document.createElement('h3');
+        answer.textContent = item.answer;
+        answerDiv.appendChild(answer);
+    })
 }
+
+let closeWindow = (event) => {
+    let lightbox = document.querySelector('#flashcard-lightbox');
+    let categories = document.querySelector('#categories');
+    lightbox.classList.remove('active');
+    categories.classList.remove('active')
+};
 
 let eventListeners = () => {
     let htmlCssCt = document.querySelector('.category-1');

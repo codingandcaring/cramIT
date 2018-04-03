@@ -47,6 +47,7 @@ body {
 .category-8,
 .category-9 {
     background-color: #85848D;
+    cursor: pointer;
 }
 
 .category-2,
@@ -55,6 +56,7 @@ body {
 .category-7,
 .category-10 {
     background-color: #62616C;
+    cursor: pointer;
 }
 
 div span {
@@ -109,6 +111,11 @@ div span {
     flex-direction: row;
     justify-content: space-around;
     align-items: bottom;
+    width: 100%;
+}
+
+.answer-buttons button {
+    width: 20%;
 }
 
 .close-button {
