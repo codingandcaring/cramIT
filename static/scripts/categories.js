@@ -41,23 +41,96 @@ let triggerNonTechnicalCategory = () => {
 
 let processFlashCardCategory = (category_name) => {
     // Read tokenValue from the local storage
+    openLightbox();
     let tokenValue = localStorage.getItem('authorization');
     fetch(`/fcquestions/${category_name}`, {
         method: 'GET',
         headers: new Headers({
             'Authorization': `Bearer ${tokenValue}`
         })
-    }).then(response => {
-        const reader = response.body.getReader();
-        reader.read()
-            .then(({ done, value }) => {
-                let data = new TextDecoder("utf-8").decode(value);
-                //document.write(data);
-                console.log(data);
-                localStorage.setItem('questions', data);
-            })
     })
+    .then((results) => {
+        return results.json();
+    })
+    .then( (questions) => {
+        localStorage.setItem('questions', JSON.stringify(questions));
+        appendQuestionToFlashCard(questions[0]);
+    })
+}
+
+let appendQuestionToFlashCard = (item) => {
+    clearFlashcard();
+    let questionDiv = document.querySelector('.question');
+    let answerDiv = document.querySelector('.answer');
+    let header = document.createElement('h1');
+    header.textContent = item.category_name;
+    questionDiv.appendChild(header);
+    let question = document.createElement('h2');
+    question.textContent = item.question;
+    questionDiv.appendChild(question);
+    let ID = document.createElement('h5');
+    ID.textContent = item.id;
+    let idDiv = document.querySelector('.question-id');
+    idDiv.appendChild(ID);
+    let showAnswer = document.querySelector('#flashcard-lightbox > div > div.answer-buttons > button.flashcard-submit')
+    showAnswer.addEventListener('click', (event) => {
+        while (answerDiv.firstChild) answerDiv.removeChild(answerDiv.firstChild);
+        let answer = document.createElement('h3');
+        answer.textContent = item.answer;
+        answerDiv.appendChild(answer);
+    })
+}
+
+let clearFlashcard = () => {
+    let questionDiv = document.querySelector('.question');
+    let answerDiv = document.querySelector('.answer');
+    let idDiv = document.querySelector('.question-id');
+    while (questionDiv.firstChild) questionDiv.removeChild(questionDiv.firstChild);
+    while (answerDiv.firstChild) answerDiv.removeChild(answerDiv.firstChild);
+    while (idDiv.firstChild) idDiv.removeChild(idDiv.firstChild);
+}
+
+let openLightbox = () => {
+    let lightbox = document.querySelector('#flashcard-lightbox');
+    let categories = document.querySelector('#categories');
+    lightbox.classList.add('active');
+    categories.classList.add('active')
+    let closeButton = document.querySelector('#flashcard-lightbox > div > span')
+    closeButton.addEventListener('click', closeWindow);
+    let nextButton =document.querySelector('#flashcard-lightbox > div > div.answer-buttons > button:nth-child(3)')
+    let previousButton = document.querySelector('#flashcard-lightbox > div > div.answer-buttons > button:nth-child(1)')
+    nextButton.addEventListener('click', nextQuestion);
+    previousButton.addEventListener('click', previousQuestion)
+}
+
+let closeWindow = (event) => {
+    let lightbox = document.querySelector('#flashcard-lightbox');
+    let categories = document.querySelector('#categories');
+    lightbox.classList.remove('active');
+    categories.classList.remove('active')
 };
+
+let nextQuestion = (event) => {
+    let currentQuestionID = document.querySelector('#flashcard-lightbox > div > span.question-id > h5');
+    currentQuestionID = parseInt(currentQuestionID.textContent, 10)
+    let questionList = JSON.parse(localStorage.getItem('questions'));
+    questionList.forEach( (question) => {
+        if (question.id === (currentQuestionID + 1)) {
+            appendQuestionToFlashCard(question);
+        }
+        })
+}
+
+let previousQuestion = (event) => {
+    let currentQuestionID = document.querySelector('#flashcard-lightbox > div > span.question-id > h5');
+    currentQuestionID = parseInt(currentQuestionID.textContent, 10)
+    let questionList = JSON.parse(localStorage.getItem('questions'));
+    questionList.forEach( (question) => {
+        if (question.id === (currentQuestionID - 1)) {
+            appendQuestionToFlashCard(question);
+        }
+        })
+}
 
 let eventListeners = () => {
     let htmlCssCt = document.querySelector('.category-1');

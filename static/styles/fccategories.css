@@ -1,32 +1,33 @@
-html {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
 
 body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     background-color: white;
 }
 
-* {
+/* * {
     box-sizing: border-box;
-}
+} */
 
 
 /* Categories */
+.content {
+    width: 100%;
+    height: 100%;
+}
 
 #categories {
-    width: 100vw;
+    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+#categories.active {
+    display: none;
 }
 
 #categories div {
@@ -46,6 +47,7 @@ body {
 .category-8,
 .category-9 {
     background-color: #85848D;
+    cursor: pointer;
 }
 
 .category-2,
@@ -54,6 +56,7 @@ body {
 .category-7,
 .category-10 {
     background-color: #62616C;
+    cursor: pointer;
 }
 
 div span {
@@ -65,9 +68,66 @@ div span {
     width: 100%;
 }
 
+#flashcard-lightbox {
+    display: none;
+    z-index: 1;
+    width: 100%;
+    height: 80%;
+    background-color:rgba(32, 30, 30, 0.575);
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#flashcard-lightbox.active {
+    display: flex;
+}
+
+.flashcard {
+    height: 70%;
+    width: 50%;
+    background-color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.question {
+    height: 40%;
+    width: 100%;
+}
+
+.answer {
+    height: 40%;
+    width: 100%;
+}
+
+
+.answer-buttons {
+    display: flex;
+    height: 10%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: bottom;
+    width: 100%;
+}
+
+.answer-buttons button {
+    width: 20%;
+}
+
+.close-button {
+    width: 100%;
+    color:rgb(216, 215, 215);
+    font-size: 15px;
+    cursor: pointer;
+    text-align: right;
+}
+
 @media (min-width: 1200px) {
     #categories div {
         height: 200px;
         width: 200px;
     }
 }
+
