@@ -44,22 +44,32 @@ let processFlashCardCategory = (category_name) => {
     let categories = document.querySelector('#categories');
     lightbox.classList.add('active');
     categories.classList.add('active')
-
     let tokenValue = localStorage.getItem('authorization');
     fetch(`/fcquestions/${category_name}`, {
         method: 'GET',
         headers: new Headers({
             'Authorization': `Bearer ${tokenValue}`
         })
-    }).then(response => {
-        const reader = response.body.getReader();
-        reader.read()
-            .then(({ done, value }) => {
-                let data = new TextDecoder("utf-8").decode(value);
-                console.log(data);
-            })
     })
-};
+    .then((results) => {
+        return results.json();
+    })
+    .then( (questions) => {
+        appendQuestionToFlashCard(questions);
+    })
+}
+
+let appendQuestionToFlashCard = (questions) => {
+    let item = questions[0]
+    let questionDiv = document.querySelector('.question');
+    let header = document.createElement('h1');
+    header.textContent = item.category_name;
+    questionDiv.appendChild(header);
+    let question = document.createElement('h2');
+    question.textContent = item.question;
+    questionDiv.appendChild(question);
+    
+}
 
 let eventListeners = () => {
     let htmlCssCt = document.querySelector('.category-1');

@@ -88,6 +88,35 @@ div span {
     width: 50%;
     background-color: white;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.question {
+    height: 40%;
+    width: 100%;
+}
+
+.answer {
+    height: 40%;
+    width: 100%;
+}
+
+
+.answer-buttons {
+    display: flex;
+    height: 10%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: bottom;
+}
+
+.close-button {
+    width: 100%;
+    color:rgb(216, 215, 215);
+    font-size: 15px;
+    cursor: pointer;
+    text-align: right;
 }
 
 @media (min-width: 1200px) {
