@@ -19,6 +19,11 @@ let appendUserInformationToPage = (user) => {
     let location = document.createElement('h2');
     location.textContent = user.location;
     contentDiv.appendChild(location);
-
+    let changePassword = document.createElement('button');
+    changePassword.textContent = 'Change Password'
+    contentDiv.appendChild(changePassword);
+    changePassword.addEventListener('click', (event) => {
+        console.log(event.target);
+    })
 }
 
