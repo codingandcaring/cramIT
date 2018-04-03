@@ -51,11 +51,22 @@ app.get('/fcquestions/:categoryName', function(req, res) {
     var categoryName = req.params.categoryName;
     let authorizedUser = userAuthorization(req, res);
     if (authorizedUser) {
-        db.getFlashCards(categoryName)
-            .then(data => {
-                res.end(JSON.stringify(data))
-            })
-            .catch(error => console.log(error))
+        //console.log('user authorized in fcquestions');
+        if (categoryName === 'Random') {
+            db.totalCards()
+                .then(total => {
+                    db.getRandomCards(total)
+                    .then(data => {
+                        res.end(JSON.stringify(data))
+                    });
+                });
+        } else {
+            db.getFlashCards(categoryName)
+                .then(data => {
+                    res.end(JSON.stringify(data))
+                })
+                .catch(error => console.log(error));
+        }
     }
 });
 
@@ -134,12 +145,12 @@ let userAuthorization = (request, response) => {
     let userID;
     console.log('authorization: ' + authorization);
     try {
-        payload = jwt.verify(authorization, secret); // was authorization.slice(7)
+        payload = jwt.verify(authorization.slice(7), secret); // was authorization.slice(7)
     } catch (err) {
         console.log(err);
     };
     if (payload) {
-        return userID = payload.userID;
+        return {iat}  = payload;
     }
     return false;
 }

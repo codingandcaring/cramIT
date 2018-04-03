@@ -3,6 +3,7 @@ let triggerHtmlCssCategory = () => {
 };
 
 let triggerJsCategory = () => {
+    console.log('triggerjs category');
     processFlashCardCategory('JavaScript');
 };
 
@@ -40,7 +41,7 @@ let triggerNonTechnicalCategory = () => {
 
 let processFlashCardCategory = (category_name) => {
     // Read tokenValue from the local storage
-    let tokenValue = '';
+    let tokenValue = localStorage.getItem('authorization');
     fetch(`/fcquestions/${category_name}`, {
         method: 'GET',
         headers: new Headers({
@@ -51,7 +52,9 @@ let processFlashCardCategory = (category_name) => {
         reader.read()
             .then(({ done, value }) => {
                 let data = new TextDecoder("utf-8").decode(value);
-                document.write(data);
+                //document.write(data);
+                console.log(data);
+                localStorage.setItem('questions', data);
             })
     })
 };
