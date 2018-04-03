@@ -44,18 +44,18 @@ let processFlashCardCategory = (category_name) => {
     openLightbox();
     let tokenValue = localStorage.getItem('authorization');
     fetch(`/fcquestions/${category_name}`, {
-        method: 'GET',
-        headers: new Headers({
-            'Authorization': `Bearer ${tokenValue}`
+            method: 'GET',
+            headers: new Headers({
+                'Authorization': `Bearer ${tokenValue}`
+            })
         })
-    })
-    .then((results) => {
-        return results.json();
-    })
-    .then( (questions) => {
-        localStorage.setItem('questions', JSON.stringify(questions));
-        appendQuestionToFlashCard(questions[0]);
-    })
+        .then((results) => {
+            return results.json();
+        })
+        .then((questions) => {
+            localStorage.setItem('questions', JSON.stringify(questions));
+            appendQuestionToFlashCard(questions[0]);
+        })
 }
 
 let appendQuestionToFlashCard = (item) => {
@@ -96,14 +96,14 @@ let openLightbox = () => {
     lightbox.classList.add('active');
     categories.classList.add('active')
     let closeButton = document.querySelector('#flashcard-lightbox > div > span')
-    closeButton.addEventListener('click', closeWindow);
-    let nextButton =document.querySelector('#flashcard-lightbox > div > div.answer-buttons > button:nth-child(3)')
+    closeButton.addEventListener('click', closeFcWindow);
+    let nextButton = document.querySelector('#flashcard-lightbox > div > div.answer-buttons > button:nth-child(3)')
     let previousButton = document.querySelector('#flashcard-lightbox > div > div.answer-buttons > button:nth-child(1)')
     nextButton.addEventListener('click', nextQuestion);
     previousButton.addEventListener('click', previousQuestion)
 }
 
-let closeWindow = (event) => {
+let closeFcWindow = (event) => {
     let lightbox = document.querySelector('#flashcard-lightbox');
     let categories = document.querySelector('#categories');
     lightbox.classList.remove('active');
@@ -114,22 +114,22 @@ let nextQuestion = (event) => {
     let currentQuestionID = document.querySelector('#flashcard-lightbox > div > span.question-id > h5');
     currentQuestionID = parseInt(currentQuestionID.textContent, 10)
     let questionList = JSON.parse(localStorage.getItem('questions'));
-    questionList.forEach( (question) => {
+    questionList.forEach((question) => {
         if (question.id === (currentQuestionID + 1)) {
             appendQuestionToFlashCard(question);
         }
-        })
+    })
 }
 
 let previousQuestion = (event) => {
     let currentQuestionID = document.querySelector('#flashcard-lightbox > div > span.question-id > h5');
     currentQuestionID = parseInt(currentQuestionID.textContent, 10)
     let questionList = JSON.parse(localStorage.getItem('questions'));
-    questionList.forEach( (question) => {
+    questionList.forEach((question) => {
         if (question.id === (currentQuestionID - 1)) {
             appendQuestionToFlashCard(question);
         }
-        })
+    })
 }
 
 let eventListeners = () => {
