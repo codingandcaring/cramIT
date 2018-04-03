@@ -40,6 +40,11 @@ let triggerNonTechnicalCategory = () => {
 
 let processFlashCardCategory = (category_name) => {
     // Read tokenValue from the local storage
+    let lightbox = document.querySelector('#flashcard-lightbox');
+    let categories = document.querySelector('#categories');
+    lightbox.classList.add('active');
+    categories.classList.add('active')
+
     let tokenValue = localStorage.getItem('authorization');
     fetch(`/fcquestions/${category_name}`, {
         method: 'GET',
