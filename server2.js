@@ -90,6 +90,11 @@ app.post('/newCard', function(req, res) {
     addQuestion(req, res);
 });
 
+app.get('/userpage', function(req, res) {
+    displayUserInformation(req, res);;
+});
+
+
 // login related
 // Function to Handle Login Request
 let processLogin = (req, res) => {
@@ -121,6 +126,20 @@ let createToken = (user) => {
     );
     return token
 };
+
+let displayUserInformation = (req, res) => {
+    let username = 'ashley'  /////this needs to be replaced with token
+    db.findUser('username', username)
+    .then( (user) => {
+        let userInfo = {'username': user[0].username, 'location': user[0].location, 'email': user[0].email}
+        console.log(userInfo)
+        res.end(JSON.stringify(userInfo))
+    })
+    .catch(error => {
+        console.log(error);
+        res.end('Failed to Find User');
+    })
+}
 
 //authorizes users to view pages past the login page based on their json webtoken
 // Slicing the authorization value as the request.headers will have key value pair as this ... "authorization: Bearer <token>"
