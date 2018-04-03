@@ -3,6 +3,7 @@ let triggerHtmlCssCategory = () => {
 };
 
 let triggerJsCategory = () => {
+    console.log('triggerjs category');
     processFlashCardCategory('JavaScript');
 };
 
@@ -51,6 +52,9 @@ let processFlashCardCategory = (category_name) => {
         reader.read()
             .then(({ done, value }) => {
                 let data = new TextDecoder("utf-8").decode(value);
+                //document.write(data);
+                console.log(data);
+                localStorage.setItem('questions', data);
             })
     })
 };
