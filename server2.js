@@ -75,6 +75,7 @@ app.get('/listCards', function(req, res) {
 app.get('/newCard', function(req, res) {
     //res.send('Making a new card eh?');
     res.sendFile(path.join(__dirname + '/static/newCard.html'));
+});
 
 app.post('/newCard', function(req, res) {
     addQuestion(req, res);
