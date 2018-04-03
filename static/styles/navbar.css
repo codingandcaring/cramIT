@@ -1,3 +1,19 @@
+#header {
+    height: 75px;
+    width: 100vw;
+    /* position: fixed; */
+    position: sticky;
+    top: 0;
+    display: flex;
+    background-color: #F4F4F6;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    height: 70%;
+}
+
 .navbar {
     display: flex;
     align-items: center;

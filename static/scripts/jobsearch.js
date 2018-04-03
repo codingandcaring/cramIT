@@ -23,46 +23,50 @@ var processGetData = (apiData) => {
 
 
 var addJobListToPage = (jobList) => {
-    console.log(jobList);
-    var searchDiv = document.querySelector('.job-listings');
+    var jobDiv = document.querySelector('.job-listings');
+    var table = document.createElement('table');
+    var headerRow = table.insertRow(-1);
+    var headerNameCell = document.createElement('TH');
+    headerNameCell.textContent = 'Company';
+    headerRow.appendChild(headerNameCell);
+
+    var headerAddressCell = document.createElement('TH');
+    headerAddressCell.textContent = 'Location';
+    headerRow.appendChild(headerAddressCell);
+
+    var headerRatingCell = document.createElement('TH');
+    headerRatingCell.textContent = 'Job Title';
+    headerRow.appendChild(headerRatingCell);
+
+    var headerRatingCell = document.createElement('TH');
+    headerRatingCell.textContent = 'Date Created';
+    headerRow.appendChild(headerRatingCell);
     
+    var headerRatingCell = document.createElement('TH');
+    headerRatingCell.textContent = 'Description';
+    headerRow.appendChild(headerRatingCell);
+
     jobList.forEach(function(job) {
-        var ulElement = document.createElement('ul');
-        var company = document.createElement('h3')
-        company.textContent = job.company;
-        var companyLi = createLiElement(company);
-        ulElement.appendChild(companyLi);
         var logo = document.createElement('img');
-        logo.setAttribute('src', job.company_logo);
-        var logoLi = createLiElement(logo);
-        ulElement.appendChild(logoLi);
-        var title = document.createElement('h4')
-        title.textContent = job.title;
-        var titleLi =createLiElement(title);
-        ulElement.appendChild(titleLi);
-        var location = document.createElement('h4')
-        location.textContent = job.location;
-        var locationLi =createLiElement(location);
-        ulElement.appendChild(locationLi);
-        var date = document.createElement('h5');
-        date.textContent = `Created on: ${job.created_at}`;
-        dateLi = createLiElement(date)
-        ulElement.appendChild(dateLi);
-        var description = document.createElement('h5')
-        description.textContent = job.description;
-        descriptionLi = createLiElement(description);
-        ulElement.appendChild(descriptionLi);
-        ulElement.addEventListener('click', function(e) {
-            e.preventDefault();
+        var row = table.insertRow();
+        var companyCell = row.insertCell(0);
+        companyCell.classList.add('company-cell');
+        companyCell.textContent = job.company;
+        logo.setAttribute('src', job.company_logo)
+        companyCell.appendChild(logo);
+        var addressCell = row.insertCell(1);
+        addressCell.textContent = job.location;
+        var titleCell = row.insertCell(2);
+        titleCell.textContent = job.title;
+        var dateCell = row.insertCell(3);
+        dateCell.textContent = job.created_at;
+        var descriptionCell = row.insertCell(4);
+        descriptionCell.textContent = job.description;
+    
+        companyCell.addEventListener('click', function() {
             openInNewTab(job.url);
-        })
-        searchDiv.appendChild(ulElement);
+        });
     });
+    jobDiv.appendChild(table);
+};
 
-}
-
-var createLiElement = function(text) {
-    var liElement = document.createElement('li');
-    liElement.appendChild(text);
-    return liElement;
-}
