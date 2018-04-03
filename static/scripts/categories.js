@@ -3,6 +3,7 @@ let triggerHtmlCssCategory = () => {
 };
 
 let triggerJsCategory = () => {
+    console.log('triggerjs category');
     processFlashCardCategory('JavaScript');
 };
 

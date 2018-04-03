@@ -27,10 +27,28 @@ let getFlashCards = (category_name) => {
     return db.query(`SELECT * FROM cards WHERE category_name = '${category_name}';`)
 };
 
+let getRandomInt = (max) => {
+  return Math.floor(Math.random() * Math.floor(max)); // maybe need plus 1
+}
+
+let totalCards = () => {
+    return db.query(`SELECT COUNT(*) FROM cards;`);
+}
+
+let getOneCardById = (id) => {
+    return db.query(`SELECT * FROM cards WHERE id ='${id}';`);
+};
+
+let getRandomCards = (total) => {
+    return db.query(`SELECT * FROM cards ORDER BY random() LIMIT 10;`);
+};
+
 module.exports = {
     findUser,
     insertUser,
     getFlashCards,
+    getRandomCards,
+    totalCards,
     insertQuestion,
     listQuestionCategories
 }

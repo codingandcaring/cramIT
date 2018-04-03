@@ -51,11 +51,22 @@ app.get('/fcquestions/:categoryName', function(req, res) {
     var categoryName = req.params.categoryName;
     let authorizedUser = userAuthorization(req, res);
     if (authorizedUser) {
-        db.getFlashCards(categoryName)
-            .then(data => {
-                res.end(JSON.stringify(data))
-            })
-            .catch(error => console.log(error))
+        //console.log('user authorized in fcquestions');
+        if (categoryName === 'Random') {
+            db.totalCards()
+                .then(total => {
+                    db.getRandomCards(total)
+                    .then(data => {
+                        res.end(JSON.stringify(data))
+                    });
+                });
+        } else {
+            db.getFlashCards(categoryName)
+                .then(data => {
+                    res.end(JSON.stringify(data))
+                })
+                .catch(error => console.log(error));
+        }
     }
 });
 
