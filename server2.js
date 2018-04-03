@@ -56,9 +56,9 @@ app.get('/fcquestions/:categoryName', function(req, res) {
             db.totalCards()
                 .then(total => {
                     db.getRandomCards(total)
-                    .then(data => {
-                        res.end(JSON.stringify(data))
-                    });
+                        .then(data => {
+                            res.end(JSON.stringify(data))
+                        });
                 });
         } else {
             db.getFlashCards(categoryName)
@@ -102,9 +102,9 @@ app.post('/newCard', function(req, res) {
 });
 
 app.get('/userpage', function(req, res) {
+    // console.log("Coming here for with req headers", req.headers);
     displayUserInformation(req, res);;
 });
-
 
 // login related
 // Function to Handle Login Request
@@ -138,17 +138,17 @@ let createToken = (user) => {
 };
 
 let displayUserInformation = (req, res) => {
-    let username = 'ashley'  /////this needs to be replaced with token
+    let username = 'ashley' /////this needs to be replaced with token
     db.findUser('username', username)
-    .then( (user) => {
-        let userInfo = {'username': user[0].username, 'location': user[0].location, 'email': user[0].email}
-        console.log(userInfo)
-        res.end(JSON.stringify(userInfo))
-    })
-    .catch(error => {
-        console.log(error);
-        res.end('Failed to Find User');
-    })
+        .then((user) => {
+            let userInfo = { 'username': user[0].username, 'location': user[0].location, 'email': user[0].email }
+            console.log(userInfo)
+            res.end(JSON.stringify(userInfo))
+        })
+        .catch(error => {
+            console.log(error);
+            res.end('Failed to Find User');
+        })
 }
 
 //authorizes users to view pages past the login page based on their json webtoken
@@ -157,16 +157,15 @@ let userAuthorization = (request, response) => {
     let { authorization } = request.headers;
     let payload;
     try {
-        payload = jwt.verify(authorization.slice(7), secret); // was authorization.slice(7)
+        payload = jwt.verify(authorization.slice(7), secret);
     } catch (err) {
         console.log(err);
     };
     if (payload) {
-        let {iat} = payload
-        return iat;
-    } else {
-        return false;
+        console.log('User Authorization', payload.userID);
+        return userID = payload.userID;
     }
+    return false;
 }
 
 let createAccount = (req, res) => {
