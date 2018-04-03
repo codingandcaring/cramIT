@@ -78,7 +78,7 @@ app.post('/signup', function(req, res) {
 
 // card functionality list add delete view ect.
 app.get('/listCards', function(req, res) {
-    res.sendFile(path.join(__dirname + '/static/listCards.html'));
+    getFlashCards(req, res);
 });
 
 app.get('/newCard', loggedIn, function(req, res) {
@@ -102,7 +102,6 @@ let processLogin = (req, res) => {
     let password = req.body.password;
     db.findUser('username', username)
         .then((user) => {
-            console.log(user);
             bcrypt.compare(password, user[0].password)
                 .then(isValid => {
                     if (isValid) {
@@ -144,23 +143,19 @@ let displayUserInformation = (req, res) => {
 //authorizes users to view pages past the login page based on their json webtoken
 // Slicing the authorization value as the request.headers will have key value pair as this ... "authorization: Bearer <token>"
 let userAuthorization = (request, response) => {
-
-    console.log('in user auth function');
-
-    console.log(request.headers);
     let { authorization } = request.headers;
     let payload;
-    let userID;
-    console.log('authorization: ' + authorization);
     try {
-        payload = jwt.verify(authorization, secret); // was authorization.slice(7)
+        payload = jwt.verify(authorization.slice(7), secret); // was authorization.slice(7)
     } catch (err) {
         console.log(err);
     };
     if (payload) {
-        return userID = payload.userID;
+        let {iat} = payload
+        return iat;
+    } else {
+        return false;
     }
-    return false;
 }
 
 let createAccount = (req, res) => {
