@@ -9,6 +9,10 @@ let findUser = (attribute, input) => {
     return db.query(`SELECT * FROM users WHERE ${attribute} = '${input}';`)
 };
 
+let getUserById = (id) => {
+    return db.query(`SELECT * FROM users WHERE id = ${id};`)
+};
+
 let insertUser = (username, password, location, email) => {
     return db.query(`INSERT INTO users (username, password, location, email) 
                     VALUES ('${username}', '${password}', '${location}', '${email}'); `)
@@ -28,7 +32,7 @@ let getFlashCards = (category_name) => {
 };
 
 let getRandomInt = (max) => {
-  return Math.floor(Math.random() * Math.floor(max)); // maybe need plus 1
+    return Math.floor(Math.random() * Math.floor(max)); // maybe need plus 1
 }
 
 let totalCards = () => {
@@ -45,6 +49,7 @@ let getRandomCards = (total) => {
 
 module.exports = {
     findUser,
+    getUserById,
     insertUser,
     getFlashCards,
     getRandomCards,
@@ -52,4 +57,3 @@ module.exports = {
     insertQuestion,
     listQuestionCategories
 }
-
