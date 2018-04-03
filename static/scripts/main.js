@@ -49,7 +49,7 @@ let userLogin = (event) => {
                     return tokenValue;
                 })
                 .then(tokenValue => {
-                    fetch('/categories', {
+                    /*fetch('/categories', {
                         method: 'GET',
                         headers: new Headers({
                             'Authorization': `Bearer ${tokenValue}`
@@ -61,9 +61,10 @@ let userLogin = (event) => {
                                 let data = new TextDecoder("utf-8").decode(value);
                                 document.write(data);
                             })
-                    })
+                    }) */
+                    window.location.replace('http://localhost:3000/categories');
                     //localStorage.setItem('authorization', tokenValue);
-                })
+                });
         } else {
             console.log("Can't log you in");
         }
