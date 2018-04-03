@@ -24,7 +24,7 @@ let listQuestionCategories = () => {
 };
 
 let getFlashCards = (category_name) => {
-    return db.query(`SELECT * From cards WHERE category_name = '${category_name}';`)
+    return db.query(`SELECT * FROM cards WHERE category_name = '${category_name}';`)
 };
 
 let getRandomInt = (max) => {
