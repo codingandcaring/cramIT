@@ -14,4 +14,6 @@ Whether you are experienced or new to the software development field, job interv
 ### Misc notes
 * psql -d postgres -f ./cramit.sql   ====> creates db and tables
 * psql -d cramit  ==========> opens up db in terminal
+*
+* psql -f [file.sql] -U ubuntu -d [dbname]
 
