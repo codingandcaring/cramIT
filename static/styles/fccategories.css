@@ -84,24 +84,31 @@ div span {
 }
 
 .flashcard {
-    height: 70%;
-    width: 50%;
+    height: 90%;
+    width: 65%;
     background-color: white;
     text-align: center;
     display: flex;
     flex-direction: column;
 }
 
-.question {
+.question, .answer {
     height: 40%;
-    width: 100%;
+    max-width: 100%;
+    margin: 10px;
 }
 
 .answer {
-    height: 40%;
-    width: 100%;
+    overflow: auto;
 }
 
+.question-id, h5 {
+    padding: 0;
+    margin: 0;
+    color: white;
+    position: relative;
+    bottom: 0;
+}
 
 .answer-buttons {
     display: flex;
