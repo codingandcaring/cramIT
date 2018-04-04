@@ -19,6 +19,7 @@ ws.on('connection', (client, req) => {
         } else {
         ws.clients.forEach( (client) => {
                 client.send(`${userName}: ${data}`);
+                client.send(`Interviewer: Good afternoon, Ashley!  Welcome to your mock interview`)
         });
 	    };
 })
