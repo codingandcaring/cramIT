@@ -142,7 +142,6 @@ let displayUserInformation = (req, res) => {
     db.findUser('username', username)
     .then( (user) => {
         let userInfo = {'username': user[0].username, 'location': user[0].location, 'email': user[0].email}
-        console.log(userInfo)
         res.end(JSON.stringify(userInfo))
     })
     .catch(error => {
@@ -188,7 +187,6 @@ let createAccount = (req, res) => {
 
 let addQuestion = (req, res) => {
     let questionData = req.body;
-    console.log(req.body);
     db.insertQuestion(questionData.category, questionData.question,
             questionData.answer, questionData.difficulty)
         .then(() => res.end('New Question stored'))
