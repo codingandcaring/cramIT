@@ -183,7 +183,6 @@ let createAccount = (req, res) => {
 
 let addQuestion = (req, res) => {
     let questionData = req.body;
-    console.log(req.body);
     db.insertQuestion(questionData.category, questionData.question,
             questionData.answer, questionData.difficulty)
         .then(() => res.end('New Question stored'))

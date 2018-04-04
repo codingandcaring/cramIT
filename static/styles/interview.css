@@ -81,6 +81,9 @@ html, body {
     text-align: center;
 }
 
+li {
+    margin: 10px;
+}
 @media (min-width: 1200px) {
     input[type="text"].form-control {
         -webkit-appearance: none;
