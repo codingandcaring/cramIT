@@ -116,6 +116,21 @@ let getFlashCards = (request, response, params) => {
     }
 };
 
+let getUserData = (request, response) => {
+    let authorizedUser = userAuthorization(request, response);
+    if (authorizedUser) {
+        db.getUserById(authorizedUser)
+            .then(user => {
+                let userInfo = { 'username': user[0].username, 'location': user[0].location, 'email': user[0].email };
+                response.end(JSON.stringify(userInfo));
+            })
+            .catch(error => {
+                console.log(error);
+                response.end('Failed to Find User');
+            })
+    }
+};
+
 let matchesTheRequest = (request, { method, path }) => {
     var sameMethod = request.method === method;
     if (sameMethod) {
@@ -150,6 +165,8 @@ let routes = [
     { method: 'GET', path: /^\/categories\/?$/, handler: getCategories },
     // When the request to get the flash cards with the Category Name then Route to
     { method: 'GET', path: /^\/fcquestions\/([a-zA-Z0-9% ]+)$/, handler: getFlashCards },
+    // When the request to get the User Data then Route to
+    { method: 'GET', path: /^\/userpage\/?$/, handler: getUserData },
     // When the Login Request Comes Here Route To
     { method: 'POST', path: /^\/tokens\/?$/, handler: processLogin },
     // When the Create New Account Request Comes Here Route To

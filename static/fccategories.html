@@ -18,7 +18,7 @@
         </div>
         <div id="flashcard-lightbox">
             <div class="flashcard">
-                <span class="close-button">close</span>              
+                <span class="close-button">close</span>
                 <div class="question">
                 </div>
                 <div class="answer">
@@ -28,7 +28,18 @@
                     <button class='flashcard-submit' type="submit">Answer</button>
                     <button>Next</button>
                 </div>
-                <span class="question-id"></span>  
+                <span class="question-id"></span>
+            </div>
+        </div>
+        <div id="userprofile-lightbox">
+            <div class="userprofile">
+                <span class="close-button">close</span>
+                <div class="name">
+                </div>
+                <div class="location">
+                </div>
+                <div class="email">
+                </div>
             </div>
         </div>
         <div id=categories>
@@ -63,6 +74,18 @@
                 <span class="c10">Non-Technical</span>
             </div>
         </div>
+        <div class="user-box">
+            <div class="user-info">
+                <ul>
+                    <li class="profile">PROFILE</li>
+                    <li class="progress">PROGRESS</li>
+                    <li class="manage-account">MANAGE ACCOUNT</li>
+                    <li class="logout">LOGOUT</li>
+                </ul>
+            </div>
+            <div class="arrow-down">
+            </div>
+        </div>
         <div class="navbar">
             <ul>
                 <a href="fccategories.html" class="home">
@@ -74,13 +97,14 @@
                 <a href="jobsearch.html" class="jobs">
                     <li class="icon"><i class="fas fa-search-plus"></i></li>
                 </a>
-                <a href="userpage.html" class="user">
-                    <li class="icon"><i class="fas fa-user"></i></li>
+                <a class="user">
+                    <li id="user-id" class="icon"><i class="fas fa-user"></i></li>
                 </a>
             </ul>
         </div>
     </div>
     <script type="text/javascript" src="scripts/categories.js"></script>
+    <script type="text/javascript" src="scripts/userpage.js"></script>
 </body>
 
 </html>
