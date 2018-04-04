@@ -1,12 +1,19 @@
-
-
-fetch('http://localhost:3000/userpage', {method:'GET'})
-.then((results) => {
-    return results.json();
-})
-.then( (userInfo) => {
-    return appendUserInformationToPage(userInfo);
-})
+let triggerUserIcon = () => {
+    let tokenValue = localStorage.getItem('authorization');
+    fetch('/userpage', {
+            method: 'GET',
+            headers: new Headers({
+                'Authorization': `Bearer ${tokenValue}`
+            })
+        })
+        .then((results) => {
+            return results.json();
+        })
+        .then((userInfo) => {
+            console.log("User Info", userInfo);
+            return appendUserInformationToPage(userInfo);
+        })
+};
 
 let appendUserInformationToPage = (user) => {
     let contentDiv = document.querySelector('.content');
@@ -25,5 +32,11 @@ let appendUserInformationToPage = (user) => {
     changePassword.addEventListener('click', (event) => {
         console.log(event.target);
     })
-}
+};
 
+let eventListener = () => {
+    let userIcon = document.querySelector('#user-id');
+    userIcon.addEventListener('click', triggerUserIcon)
+};
+
+eventListener();
