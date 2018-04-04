@@ -1,7 +1,13 @@
 const pg = require('pg-promise')();
 
 const builder = process.env.USER
-const dbconfig = `postgres://${builder}@localhost/cramit`;
+const dbconfig = {
+    host: 'localhost',
+    port: 5432,
+    database: 'cramit',
+    user: 'ubuntu',
+    password: 'digitalcrafts'
+    }
 const db = pg(dbconfig);
 
 
