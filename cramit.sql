@@ -39,10 +39,10 @@ CREATE TABLE user_progress (
         ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-INSERT INTO users (username, password, email) VALUES 
-    ('nick', '$2a$10$8BnInY3Vd2Tafs6lAYvceuXeCECoVTUPJ4wZ4LY6Cl/qHmADJtoVi', 'logikfx@gmail.com'),
-    ('ashley', '$2a$10$bQvguGBqqkI.FcQKjUn1KO9.lP54NHIFp1UWWPYGZXFVZV23QuL1u', 'bla@gmail.com'),
-    ('prathyusha', '$2a$10$TENai6QG7BWzwA.gqAwdI.P40Zct1IYWHs1ylV4A40pbg1fliQxrS', 'blabla@gmail.com');
+INSERT INTO users (username, password, email, location) VALUES 
+    ('nick', '$2a$10$8BnInY3Vd2Tafs6lAYvceuXeCECoVTUPJ4wZ4LY6Cl/qHmADJtoVi', 'logikfx@gmail.com', 'Asheville, NC'),
+    ('ashley', '$2a$10$bQvguGBqqkI.FcQKjUn1KO9.lP54NHIFp1UWWPYGZXFVZV23QuL1u', 'ashley@digitalcrafts.com', 'Fleming Island, FL'),
+    ('prathyusha', '$2a$10$TENai6QG7BWzwA.gqAwdI.P40Zct1IYWHs1ylV4A40pbg1fliQxrS', 'prathyusha@gmail.com', 'Atlanta, GA');
 
 
 INSERT INTO cards (category_name, question, answer, difficulty) VALUES
