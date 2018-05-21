@@ -4,6 +4,16 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const app = express();
 
+let path = require('path');
+let nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+           user: 'codingandcaring@gmail.com',
+           pass: 'Callista.08'
+       }
+   });
+
 const jwt = require('jsonwebtoken');
 const db = require('./database');
 
@@ -14,10 +24,15 @@ const saltRounds = 10;
 // const secret = process.env.secretvarname
 const secret = '1trw_87n$a%rthp'
 
-let path = require('path');
 
 // needed for images css files ect
 app.use(express.static('static'));
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 // useful for grabing data out of post requests
 app.use(bodyParser.urlencoded({
@@ -114,6 +129,7 @@ app.get('/userpage', function(req, res) {
         })
 });
 
+
 // login related
 // Function to Handle Login Request
 let processLogin = (req, res) => {
@@ -192,4 +208,37 @@ let addQuestion = (req, res) => {
         });
 };
 
-app.listen(3000);
+
+//for Ashley's resume
+let getdatatFromServer = (request, callback) => {
+    let body = ''
+    request.on('data', (chunk) => {
+        body += chunk.toString();
+    });
+    request.on('end', () => {
+        callback(body);
+    });
+};
+
+let sendEmail = (req, res) => {
+    let mailOptions = {
+        from: `codingandcaring@gmail.com`, // sender address
+        replyTo: `${req.body.email}`,
+        to: 'ashley@codingandcaring.com', // list of receivers
+        subject: `${req.body.subject}`, // Subject line
+        html: `${req.body.message}`// plain text body
+        };
+    transporter.sendMail(mailOptions, function (err, info) {
+        if(err)
+            res.end('Unable to send Message')
+        else
+            res.end('Message Received')
+        });
+};
+
+app.post('/email', function(req, res) {
+    sendEmail(req, res);
+})
+
+
+app.listen(5000);
